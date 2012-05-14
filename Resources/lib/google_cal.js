@@ -1,16 +1,27 @@
 /*
  * Google Calendar API
  */
-function cal(g) {
+function cal(LoadingView) {
 	var	baseURL = 'https://www.google.com/calendar/feeds/fvijvohm91uifvd9hratehf65k%40group.calendar.google.com/public/embed?alt=json',
 		dataCache = {},
 		predefined = {
-			LAST_QUERY: {}
+			LAST_QUERY: null
 		},
-		config = require('/config/settings');
-	
+		config = require('/config/settings'),
+		htmlEntities = {
+			'&amp;'		: '&',
+			'&gt;'		: '>',
+			'&lt;'		: '<',
+			'&nbsp;'	: ' ',
+			'&quot;'	: '"'
+		};
+	// set GET query
 	function queryString(query) {
-		// last use query
+		// call query
+		if (typeof query === 'string') {
+			var pred = predefined[query];
+			query = pred ? pred : query;
+		}
 		predefined.LAST_QUERY = query;
 		var q = [];
 		Object.keys(query).forEach(function (key, i) {
@@ -20,6 +31,7 @@ function cal(g) {
 		query = q.join('&');
 		return query;
 	}
+	// Google Calendar Object -> internal Object
 	function format(obj) {
 		obj = obj.feed;
 		if (obj.generator.version !== '1.0') {
@@ -58,6 +70,11 @@ function cal(g) {
 					end: item.gd$when[0].endTime
 				}
 			};
+			// HTML entity decode
+			Object.keys(htmlEntities).forEach(function (entity) {
+				eventobj.content = eventobj.content.split(entity).join(htmlEntities[entity]);
+			});
+			// get Region
 			var title = eventobj.title;
 			try {
 				var state = title.split(']')[0].split('[')[1].split('/');
@@ -82,8 +99,8 @@ function cal(g) {
 		
 		return calobj;
 	}
+	// Region filter
 	function filter(data) {
-		// Region filter
 		var settings = config.settings;
 		var region = config.load('region');
 		if (region.length > 0) {
@@ -91,7 +108,7 @@ function cal(g) {
 				// フィルタ対象の地域を回す
 				return region.some(function (pref) {
 					// 地域の検索対象文字列一覧を回す
-					return settings.Region[pref].some(function (pref) {
+					return settings[0].data[pref].some(function (pref) {
 						// 検索文字列と等しい場合にTRUE
 						return item.state.prefecture === pref;
 					});
@@ -100,7 +117,7 @@ function cal(g) {
 		}
 		return data;
 	}
-	
+	// get Google Calendar
 	this.get = function (query, callback, cache) {
 		// If offline
 		/* これを使うと、b-mobile SIMなどで正常に動作しない
@@ -123,7 +140,7 @@ function cal(g) {
 			}
 		}
 		// Open loading view
-		g.LoadingView.fireEvent('openBar');
+		LoadingView.fireEvent('openBar');
 		// HTTP Client
 		var client = Ti.Network.createHTTPClient({
 			ondatastream: function (e) {
@@ -136,12 +153,12 @@ function cal(g) {
 				// Cache
 				dataCache[query] = JSON.stringify(data);
 				// Close loading view
-				g.LoadingView.fireEvent('closeBar');
+				LoadingView.fireEvent('closeBar');
 				callback(filter(data));
 			},
 			onerror: function (e) {
 				// Close loading view
-				g.LoadingView.fireEvent('closeBar');
+				LoadingView.fireEvent('closeBar');
 				alert('Network error.');
 			},
 			timeout: 5000
@@ -149,10 +166,13 @@ function cal(g) {
 		client.open('GET', baseURL + query);
 		client.send();
 	};
+	// search Google Calendar
 	this.search = function (query, search_str, callback) {
 		var pred = predefined[query];
 		query = pred ? pred : query;
 		
+		search_str = '\\' + search_str.split('').join('\\');
+		Ti.API.info('search: ' + search_str);
 		var regexp = new RegExp(search_str, "i");
 		
 		this.get(query, function (res) {
@@ -163,4 +183,7 @@ function cal(g) {
 			callback(res);
 		}, true);
 	};
+};
+module.exports = function (view) {
+	return new cal(view);
 };

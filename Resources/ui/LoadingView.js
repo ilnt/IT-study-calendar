@@ -1,5 +1,6 @@
 // Loading View
-module.exports = function (g) {
+module.exports = function (view) {
+	// iOSでは、渡されたviewにLoadingを貼付ける
 	/* iOSではActivityIndicatorの部分に変更が必要
 	var bgView = Ti.UI.createView({
 		backgroundColor: '#555',
