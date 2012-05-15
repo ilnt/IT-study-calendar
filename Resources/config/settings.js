@@ -1,15 +1,16 @@
 // Settings Window data
 /* 設定画面の項目を定義します
- * this.settings配列の中にObjectとして設定項目を追加する
- * Objectにはid(呼び出し名), name(設定項目名), type(設定), init(初期値), data(type=checkbox以外のとき)
+ * this.settingsObjectの中にid(呼び出し名)をkeyとするObjectとして設定項目を追加する
+ * 各設定項目のObjectにはname(設定項目名), title(副項目名), type(設定), init(初期値), data(type=checkbox以外のとき)
  */
 module.exports = new function () {
-	this.settings =  [
-		{
-			id: 'region',
+	var that = this;
+	this.settings =  {
+		'region': {
 			name: 'Region',
 			type: 'select',
-			init: '地域未指定',
+			title: '地域未指定',
+			init: [],
 			data: {
 				// 表示名: 検索名(複数指定可能)
 				'オンライン': ['オンライン'],
@@ -62,18 +63,35 @@ module.exports = new function () {
 				'沖縄県': ['沖縄']
 			}
 		},
-		{
-			id: 'enableCal',
-			name: 'Calendar View beta',
+		'enableCal': {
+			name: 'Calendar View α',
 			type: 'check',
+			title: 'カレンダービューαを使う(要再起動)',
 			init: false
 		}
-	];
-	this.load = function (name) {
-		var set = Ti.App.Properties.getList(name);
-		return set ? set : false;
 	};
-	this.set = function (name, data) {
-		Ti.App.Properties.setList(name, data);
+	this.load = function (id) {
+		var	item = that.settings[id],
+			set;
+		switch (item.type) {
+			case 'select':
+				set = Ti.App.Properties.getList(id);
+				break;
+			case 'check':
+				set = Ti.App.Properties.getBool(id);
+				break;
+		}
+		return set ? set : item.init;
+	};
+	this.set = function (id, data) {
+		var	item = that.settings[id];
+		switch (item.type) {
+			case 'select':
+				Ti.App.Properties.setList(id, data);
+				break;
+			case 'check':
+				Ti.App.Properties.setBool(id, data);
+				break;
+		}
 	}
 };

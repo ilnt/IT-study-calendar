@@ -108,7 +108,7 @@ function cal(LoadingView) {
 				// フィルタ対象の地域を回す
 				return region.some(function (pref) {
 					// 地域の検索対象文字列一覧を回す
-					return settings[0].data[pref].some(function (pref) {
+					return settings.region.data[pref].some(function (pref) {
 						// 検索文字列と等しい場合にTRUE
 						return item.state.prefecture === pref;
 					});
@@ -171,9 +171,13 @@ function cal(LoadingView) {
 		var pred = predefined[query];
 		query = pred ? pred : query;
 		
-		search_str = '\\' + search_str.split('').join('\\');
+		var a_Z = new RegExp('[A-Za-z0-9_]');
+		search_str = search_str.split('').map(function (cha) {
+			return a_Z.test(cha) ? cha : '\\' + cha;
+		}).join('');
+		
 		Ti.API.info('search: ' + search_str);
-		var regexp = new RegExp(search_str, "i");
+		var regexp = new RegExp(search_str, 'i');
 		
 		this.get(query, function (res) {
 			res = res.entry.filter(function (item) {

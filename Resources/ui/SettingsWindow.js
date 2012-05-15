@@ -1,8 +1,7 @@
 // Settings Window
-var win = Ti.UI.currentWindow;
-
-var config = require('/config/settings');
-var settings = config.settings;
+var	win = Ti.UI.currentWindow,
+	config = require('/config/settings'),
+	settings = config.settings;
 
 var view = (function (g) {
 	var sections = [];
@@ -10,29 +9,29 @@ var view = (function (g) {
 		backgroundColor: '#000',
 		color: '#fff'
 	});
-	settings.forEach(function (item) {
+	Object.keys(settings).forEach(function (id) {
+		var item = settings[id];
 		var section = Ti.UI.createTableViewSection({
 			headerTitle: item.name
 		});
 		sections.push(section);
-		var setval = config.load(item.id);
+		var setval = config.load(id);
 		var row = Ti.UI.createTableViewRow();
 		
 		switch (item.type) {
 			case 'check':
-				row.title = 'カレンダービューβを使う(要再起動)';
-				row.hasCheck = setval ? setval : item.init;
+				row.title = item.title;
+				row.hasCheck = setval !== item.init ? setval : item.init;
 				row.addEventListener('click', function () {
 					setval = ! setval;
 					row.hasCheck = setval;
-					config.set(item.id, setval);
+					config.set(id, setval);
 				});
 				break;
 			
 			case 'select':
-				row.title = setval ? setval.join(',') : item.init;
+				row.title = JSON.stringify(setval) !== JSON.stringify(item.init) ? setval.join(',') : item.title;
 				row.hasChild = true;
-				setval = setval ? setval : [];
 				row.addEventListener('click', function () {
 					var win = Ti.UI.createWindow({
 						backgroundColor: '#000',
@@ -67,9 +66,10 @@ var view = (function (g) {
 					});
 					
 					win.addEventListener('blur', function () {
-						row.title = setval.length > 0 ? setval.join(',') : item.init;
-						Ti.API.info('setcal: ' + JSON.stringify(setval));
-						config.set(item.id, setval);
+						row.title = JSON.stringify(setval) !== JSON.stringify(item.init) ? setval.join(',') : item.title;
+						config.set(id, setval);
+						// UIに適用
+						g.EventListView.fireEvent('reload', true);
 					});
 					win.open();
 				});

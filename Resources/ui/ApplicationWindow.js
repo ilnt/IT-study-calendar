@@ -30,12 +30,13 @@ if (enableCal) {
 	}, function (res) {
 		EventListView.fireEvent('openView', res.entry);
 	});
-	EventListView.addEventListener('reload', function () {
+	EventListView.addEventListener('reload', function (cache) {
 		g.gCal.get('LAST_QUERY', function (res) {
 			EventListView.fireEvent('openView', res.entry);
-		});
+		}, cache);
 	});
 	var ScrollableView = EventListView;
+	g.EventListView = EventListView;
 }
 
 // Android Only(Menu)
