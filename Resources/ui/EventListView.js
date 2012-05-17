@@ -1,10 +1,10 @@
 // Event list View
 var win = Ti.UI.currentWindow;
-module.exports = function (g) {
+module.exports = function (g, title) {
 	var table = Ti.UI.createTableView();
 	
 	var header = Ti.UI.createTableViewRow({
-		title: '一覧',
+		title: title ? title : '一覧',
 		color: '#fff',
 		backgroundColor: '#4080bf',
 		backgroundSelectedColor: '#4080bf',

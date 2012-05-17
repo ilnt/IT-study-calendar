@@ -24,7 +24,7 @@ module.exports = function (g) {
 	search.addEventListener('return', function (e) {
 		search.blur();
 		var search_str = e.value;
-		g.gCal.search('LAST_QUERY', search_str, function (items) {
+		g.gCal.search('CURRENT_QUERY', search_str, function (items) {
 			eventList.fireEvent('openView', items);
 		});
 	});

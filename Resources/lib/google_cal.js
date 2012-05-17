@@ -5,7 +5,8 @@ function cal(LoadingView) {
 	var	baseURL = 'https://www.google.com/calendar/feeds/fvijvohm91uifvd9hratehf65k%40group.calendar.google.com/public/embed?alt=json',
 		dataCache = {},
 		predefined = {
-			LAST_QUERY: null
+			LAST_QUERY: null,
+			CURRENT_QUERY: null
 		},
 		config = require('/config/settings'),
 		htmlEntities = {
@@ -23,6 +24,7 @@ function cal(LoadingView) {
 			query = pred ? pred : query;
 		}
 		predefined.LAST_QUERY = query;
+		predefined.CURRENT_QUERY = query;
 		var q = [];
 		Object.keys(query).forEach(function (key, i) {
 			if (i === 0) q[0] = '';
@@ -129,13 +131,17 @@ function cal(LoadingView) {
 		Ti.API.info('Request: ' + JSON.stringify(query));
 		query = queryString(query);
 		// Cache
-		if (cache) {
+		if (typeof cache === "boolean" && cache) {
 			// Cache check
 			var data = dataCache[query];
 			if (data) {
 				data = filter(JSON.parse(data));
-				// ウィンドウが完全に表示する前に描画を始めると失敗する
-				setTimeout(callback, 1000, data);
+				// カレンダーUI有効時のみ
+				if (config.load('enableCal'))
+					// ウィンドウが完全に表示される前に描画を始めると失敗する
+					setTimeout(callback, 1000, data);
+				else
+					callback(data);
 				return false;
 			}
 		}
@@ -186,6 +192,10 @@ function cal(LoadingView) {
 			});
 			callback(res);
 		}, true);
+	};
+	// set current query
+	this.setCurrentQuery = function (query) {
+		predefined.CURRENT_QUERY = query;
 	};
 };
 module.exports = function (view) {

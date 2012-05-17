@@ -1,7 +1,7 @@
 // Settings Window data
 /* 設定画面の項目を定義します
  * this.settingsObjectの中にid(呼び出し名)をkeyとするObjectとして設定項目を追加する
- * 各設定項目のObjectにはname(設定項目名), title(副項目名), type(設定), init(初期値), data(type=checkbox以外のとき)
+ * 各設定項目のObjectにはname(設定項目名), title(副項目名), type(設定), init(初期値), callback(option:初期化関数), data(type=checkbox以外のとき)
  */
 module.exports = new function () {
 	var that = this;
@@ -11,6 +11,11 @@ module.exports = new function () {
 			type: 'select',
 			title: '地域未指定',
 			init: [],
+			callback: function (g) {
+				alert('カレンダーの描画が終わるまでお待ちください。');
+				// UIに適用
+				g.EventListView.fireEvent('reload', 'refresh');
+			},
 			data: {
 				// 表示名: 検索名(複数指定可能)
 				'オンライン': ['オンライン'],
@@ -67,7 +72,31 @@ module.exports = new function () {
 			name: 'Calendar View α',
 			type: 'check',
 			title: 'カレンダービューαを使う(要再起動)',
-			init: false
+			init: false,
+			callback: function (g, check, cb) {
+				if (check) {
+					var dialog = Ti.UI.createOptionDialog({
+						title: 'CalendarViewは不安定です。本当に変更しますか？',
+						options: ['いいえ', 'はい'],
+						destructive: 1,
+						cancel: 0
+					});
+					dialog.addEventListener('click', function (e) {
+						if (e.cancel) {
+							cb(false);
+						} else {
+							cb(true);
+							if (g.android)
+								alert('アプリを再起動して下さい');
+						}
+					});
+					dialog.show();
+				} else {
+					cb(true);
+					if (g.android)
+						alert('アプリを再起動して下さい');
+				};
+			}
 		}
 	};
 	this.load = function (id) {

@@ -17,8 +17,11 @@ else if (Ti.Platform.osname === 'mobileweb') {
 	alert('Mobile web is not yet supported by this template');
 }
 else {
+	var config = require('/config/settings');
 	// Global object
 	var g = {
+		loadConfig: config.load,
+		enableCal: config.load('enableCal'),
 		gCal: {},
 		disp: {
 			width: Ti.Platform.displayCaps.platformWidth,

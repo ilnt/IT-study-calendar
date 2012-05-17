@@ -14,7 +14,7 @@
     <version>1.0</version>
     <publisher>infiniteloop</publisher>
     <url>http://</url>
-    <description>not specified</description>
+    <description>IT study calendar</description>
     <copyright>2012 by infiniteloop</copyright>
     <icon>appicon.png</icon>
     <persistent-wifi>false</persistent-wifi>
@@ -39,7 +39,6 @@
     <android xmlns:android="http://schemas.android.com/apk/res/android">
         <manifest>
             <supports-screens android:anyDensity="false"/>
-            <uses-permission android:name="android.permission.READ_CALENDAR"/>
             <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
             <uses-permission android:name="android.permission.INTERNET"/>
             <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>

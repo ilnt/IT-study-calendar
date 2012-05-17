@@ -23,9 +23,19 @@ var view = (function (g) {
 				row.title = item.title;
 				row.hasCheck = setval !== item.init ? setval : item.init;
 				row.addEventListener('click', function () {
-					setval = ! setval;
-					row.hasCheck = setval;
-					config.set(id, setval);
+					function cb() {
+						setval = ! setval;
+						row.hasCheck = setval;
+						config.set(id, setval);
+					}
+					// settingsに指定されたcallbackの実行(主にUI初期化)
+					var callback = item.callback;
+					if (callback)
+						// callbackがfalseを返したときは実行取り消し
+						callback(g, ! setval, function (res) {
+							if (res !== false) cb();
+						});
+					else cb();
 				});
 				break;
 			
@@ -66,10 +76,16 @@ var view = (function (g) {
 					});
 					
 					win.addEventListener('blur', function () {
-						row.title = JSON.stringify(setval) !== JSON.stringify(item.init) ? setval.join(',') : item.title;
-						config.set(id, setval);
-						// UIに適用
-						g.EventListView.fireEvent('reload', true);
+						var preSetval = config.load(id);
+						if (preSetval.toString() !== setval.toString()) {
+							row.title = JSON.stringify(setval) !== JSON.stringify(item.init)
+								? setval.join(',') : item.title;
+							config.set(id, setval);
+							// settingsに指定されたcallbackの実行(主にUI初期化)
+							var callback = item.callback;
+							if (callback)
+								callback(g);
+						}
 					});
 					win.open();
 				});

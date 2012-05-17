@@ -62,6 +62,23 @@ module.exports = function (g, o) {
 		});
 		content.autoLink = Titanium.UI.Android.LINKIFY_WEB_URLS;
 		link.autoLink = Titanium.UI.Android.LINKIFY_WEB_URLS;
+		
+		// 共有
+		var share = Ti.UI.createButton({
+			title: '共有',
+			top: 50,
+			width: g.disp.width
+		});
+		view.add(share);
+		var intent_share = Ti.Android.createIntent({
+			action: Ti.Android.ACTION_SEND,
+			type: 'text/plain'
+		});
+		intent_share.putExtra(Ti.Android.EXTRA_TEXT, o.title + ' #IT勉強会カレンダー');
+		intent_share.addCategory(Ti.Android.CATEGORY_DEFAULT);
+		share.addEventListener('click', function () {
+			Ti.Android.currentActivity.startActivity(intent_share);
+		});
 	} else {
 		link.color = '#04b';
 		link.addEventListener('click', function () {
@@ -70,6 +87,19 @@ module.exports = function (g, o) {
 	}
 	link.ellipsize = true;
 	link.height = 20;
+	
+	// Android Only(Menu)　メニューが追加できない
+	if (false && g.android) {
+		var activity = Ti.Android.currentActivity;
+		activity.onCreateOptionsMenu = function (e) {
+			var menu = e.menu;
+			var share = menu.add({title: '共有'});
+			
+			share.addEventListener('click', function () {
+				alert('共有');
+			});
+		}
+	}
 	
 	return view;
 };
