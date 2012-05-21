@@ -58,7 +58,7 @@ function cal(LoadingView) {
 				email: item.email.$t
 			};
 		});
-		if (! obj.entry instanceof Array)
+		if (! (obj.entry instanceof Array))
 			obj.entry = [];
 		obj.entry.forEach(function (item, index) {
 			eventobj = {
@@ -74,6 +74,7 @@ function cal(LoadingView) {
 			};
 			// HTML entity decode
 			Object.keys(htmlEntities).forEach(function (entity) {
+				eventobj.title = eventobj.title.split(entity).join(htmlEntities[entity]);
 				eventobj.content = eventobj.content.split(entity).join(htmlEntities[entity]);
 			});
 			// get Region

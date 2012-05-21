@@ -48,6 +48,12 @@ module.exports = function (g, title) {
 				detail.open();
 			});
 		});
+		if (rowData.length === 0) {
+			rowData = [Ti.UI.createTableViewRow({
+				title: '該当するイベントがありません。',
+				color: '#000'
+			})];
+		}
 		table.data = [header].concat(rowData);
 	});
 	

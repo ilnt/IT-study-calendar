@@ -51,6 +51,11 @@ module.exports = function (g, o) {
 	var content = label('内容: ' + o.content);
 	var link = label('リンク: ' + o.link);
 	if (g.android) {
+		// Auto link
+		content.autoLink = Titanium.UI.Android.LINKIFY_WEB_URLS;
+		link.autoLink = Titanium.UI.Android.LINKIFY_WEB_URLS;
+		
+		// 地図検索
 		var intent = Ti.Android.createIntent({
 			action: Ti.Android.ACTION_VIEW,
 			data: 'geo:0,0?q=' + encodeURIComponent(o.where)
@@ -60,8 +65,6 @@ module.exports = function (g, o) {
 		place.addEventListener('click', function () {
 			Ti.Android.currentActivity.startActivity(chooser);
 		});
-		content.autoLink = Titanium.UI.Android.LINKIFY_WEB_URLS;
-		link.autoLink = Titanium.UI.Android.LINKIFY_WEB_URLS;
 		
 		// 共有
 		var share = Ti.UI.createButton({
