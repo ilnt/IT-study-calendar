@@ -105,12 +105,15 @@ module.exports = new function () {
 		switch (item.type) {
 			case 'select':
 				set = Ti.App.Properties.getList(id);
+				// 値渡し
+				set = set ? set : [].concat(item.init);
 				break;
 			case 'check':
 				set = Ti.App.Properties.getBool(id);
+				set = set !== null ? set : item.init;
 				break;
 		}
-		return set ? set : item.init;
+		return set;
 	};
 	this.set = function (id, data) {
 		var	item = that.settings[id];

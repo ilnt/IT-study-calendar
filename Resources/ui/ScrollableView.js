@@ -10,7 +10,7 @@ module.exports = function (g) {
 			return false;
 		var date = new Date(now);
 		date.setMonth(date.getMonth() + month_d);
-		var CalendarView = require('CalendarView')(g, date, month_d);
+		var CalendarView = require('ui/CalendarView')(g, date, month_d);
 		views[month_d] = {
 			loaded: false,
 			view: CalendarView,

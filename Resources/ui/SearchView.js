@@ -12,7 +12,7 @@ module.exports = function (g) {
 		top: 0
 	});
 	
-	var eventList = require('EventListView')(g);
+	var eventList = require('ui/EventListView')(g);
 	eventList.height = g.disp.height / 10 * 9;
 	
 	var search = Ti.UI.createSearchBar({

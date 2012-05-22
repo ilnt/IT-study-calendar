@@ -31,7 +31,7 @@ module.exports = function (g, date, month_d) {
 						var items = eventItems[itemIndex];
 						// イベントが存在する場合
 						if (items)
-							require('CreateWindow').EventList(g, items).open();
+							require('ui/CreateWindow').EventList(g, items).open();
 					});
 					label.top = 0;
 					label.left = 0;

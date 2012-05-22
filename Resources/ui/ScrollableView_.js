@@ -11,7 +11,7 @@ module.exports = function (g) {
 		date.setMonth(date.getMonth() + month_d);
 		// load EventList View
 		var date = g.getDate(date);
-		var EventListView = require('EventListView')(g, date.year + '年 ' + (date.month + 1) + '月');
+		var EventListView = require('ui/EventListView')(g, date.year + '年 ' + (date.month + 1) + '月');
 		var query = {
 			'start-min': date.year + '-' + date.zeroPadding(date.month + 1) + '-' + '01T00:00:00+09:00',
 			'start-max': date.year + '-' + date.zeroPadding(date.month + 1) + '-' + date.zeroPadding(date.currentMonthLastDate) + 'T23:59:59+09:00',

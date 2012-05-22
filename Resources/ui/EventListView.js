@@ -38,7 +38,7 @@ module.exports = function (g, title) {
 			dateSection.add(row);
 			
 			row.addEventListener('click', function () {
-				require('CreateWindow').EventDetail(g, item).open();
+				require('ui/CreateWindow').EventDetail(g, item).open();
 			});
 		});
 		if (rowData.length === 0) {
