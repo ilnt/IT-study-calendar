@@ -38,14 +38,7 @@ module.exports = function (g, title) {
 			dateSection.add(row);
 			
 			row.addEventListener('click', function () {
-				var detail = Ti.UI.createWindow({
-					backgroundColor: '#fff',
-					navBarHidden: false,
-					title: 'イベント詳細'
-				});
-				var view = require('EventDetailView')(g, item);
-				detail.add(view);
-				detail.open();
+				require('CreateWindow').EventDetail(g, item).open();
 			});
 		});
 		if (rowData.length === 0) {

@@ -91,18 +91,5 @@ module.exports = function (g, o) {
 	link.ellipsize = true;
 	link.height = 20;
 	
-	// Android Only(Menu)　メニューが追加できない
-	if (false && g.android) {
-		var activity = Ti.Android.currentActivity;
-		activity.onCreateOptionsMenu = function (e) {
-			var menu = e.menu;
-			var share = menu.add({title: '共有'});
-			
-			share.addEventListener('click', function () {
-				alert('共有');
-			});
-		}
-	}
-	
 	return view;
 };

@@ -27,6 +27,12 @@ else {
 			width: Ti.Platform.displayCaps.platformWidth,
 			height: Ti.Platform.displayCaps.platformHeight - 27
 		},
+		orientationModes: [
+			Ti.UI.PORTRAIT,
+			Ti.UI.UPSIDE_PORTRAIT/*,
+			Ti.UI.LANDSCAPE_LEFT,
+			Ti.UI.LANDSCAPE_RIGHT*/
+		],
 		android: Ti.Platform.osname === 'android',
 		toast: function (message) {
 			Ti.UI.createNotification({
@@ -104,12 +110,7 @@ else {
 		backgroundColor: '#fff',
 		navBarHidden: true,
 		exitOnClose: true,
-		orientationModes: [
-			Ti.UI.PORTRAIT,
-			Ti.UI.UPSIDE_PORTRAIT/*,
-			Ti.UI.LANDSCAPE_LEFT,
-			Ti.UI.LANDSCAPE_RIGHT*/
-		]
+		orientationModes: g.orientationModes
 	});
 	Ti.Gesture.addEventListener('orientationchange', function (e) {
 		Ti.API.info(e.orientation);

@@ -1,6 +1,6 @@
 // Settings Window
 var	win = Ti.UI.currentWindow,
-	config = require('/config/settings'),
+	config = require('config/settings'),
 	settings = config.settings;
 
 var view = (function (g) {

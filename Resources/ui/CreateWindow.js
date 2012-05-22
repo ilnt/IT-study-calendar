@@ -6,7 +6,8 @@
 exports.EventList = function (g, items) {
 	var win = Ti.UI.createWindow({
 		backgroundColor: '#fff',
-		navBarHidden: true
+		navBarHidden: true,
+		orientationModes: g.orientationModes
 	});
 	var view = require('EventListView')(g);
 	win.add(view);
@@ -15,15 +16,27 @@ exports.EventList = function (g, items) {
 	});
 	return win;
 };
+// Event Detail Window
+exports.EventDetail = function (g, item) {
+	var win = Ti.UI.createWindow({
+		backgroundColor: '#fff',
+		navBarHidden: false,
+		title: 'イベント詳細',
+		orientationModes: g.orientationModes
+	});
+	var view = require('EventDetailView')(g, item);
+	win.add(view);
+	return win;
+};
 // Search Window
 exports.Search = function (g) {
 	var win = Ti.UI.createWindow({
 		backgroundColor: '#fff',
-		navBarHidden: true
+		navBarHidden: true,
+		orientationModes: g.orientationModes
 	});
 	var SearchView = require('SearchView')(g);
 	win.add(SearchView);
-	win.g = g;
 	return win;
 };
 // Settings Window
@@ -32,8 +45,8 @@ exports.Settings = function (g) {
 		url: 'SettingsWindow.js',
 		backgroundColor: '#000',
 		navBarHidden: false,
-		title: '設定'
+		title: '設定',
+		orientationModes: g.orientationModes
 	});
-	win.g = g;
 	return win;
 };
