@@ -17,6 +17,15 @@ module.exports = function (g) {
 		var row = Ti.UI.createTableViewRow();
 		
 		switch (item.type) {
+			case 'button':
+				row.title = item.title;
+				row.addEventListener('click', function () {
+					var callback = item.callback;
+					if (callback)
+						callback(g);
+				});
+				break;
+			
 			case 'check':
 				row.title = item.title;
 				row.hasCheck = setval !== item.init ? setval : item.init;

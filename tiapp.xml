@@ -11,11 +11,11 @@
     <sdk-version>2.0.1.GA2</sdk-version>
     <id>jp.co.infiniteloop.itstudycal</id>
     <name>IT Study Calendar</name>
-    <version>1.0</version>
+    <version>0.1.0</version>
     <publisher>infiniteloop</publisher>
-    <url>http://</url>
+    <url>http://www.infiniteloop.co.jp/</url>
     <description>IT study calendar</description>
-    <copyright>2012 by infiniteloop</copyright>
+    <copyright>infiniteloop</copyright>
     <icon>appicon.png</icon>
     <persistent-wifi>false</persistent-wifi>
     <prerendered-icon>false</prerendered-icon>
@@ -37,7 +37,7 @@
         </orientations>
     </iphone>
     <android xmlns:android="http://schemas.android.com/apk/res/android">
-        <manifest>
+        <manifest android:versionCode="1" android:versionName="0.1.0">
             <supports-screens android:anyDensity="false"/>
             <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
             <uses-permission android:name="android.permission.INTERNET"/>

@@ -97,6 +97,15 @@ module.exports = new function () {
 						alert('アプリを再起動して下さい');
 				};
 			}
+		},
+		'version': {
+			name: 'Version Beta',
+			type: 'button',
+			title: 'Version ' + Ti.App.getVersion() + ' [2012/05/22]',
+			init: null,
+			callback: function () {
+				Ti.Platform.openURL('https://github.com/ilnt/IT-study-calendar');
+			}
 		}
 	};
 	this.load = function (id) {
