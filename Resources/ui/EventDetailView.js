@@ -44,7 +44,6 @@ module.exports = function (g, o) {
 		allday = period[0] === period[1];
 	}
 	var timeLabel = String(allday ? d.start[0] : d.start[0] + ' ' + d.start[1] + ' ~ ' + d.end[0] + ' ' + d.end[1]);
-	Ti.API.info(timeLabel);
 	var time = label(timeLabel);
 	var title = label('タイトル: ' + o.title);
 	var place = label('場所: ' + o.where);
@@ -78,9 +77,36 @@ module.exports = function (g, o) {
 			type: 'text/plain'
 		});
 		intent_share.putExtra(Ti.Android.EXTRA_TEXT, o.title + ' #IT勉強会カレンダー');
-		intent_share.addCategory(Ti.Android.CATEGORY_DEFAULT);
 		share.addEventListener('click', function () {
 			Ti.Android.currentActivity.startActivity(intent_share);
+		});
+		
+		// カレンダーへ登録
+		var cal = Ti.UI.createButton({
+			title: 'カレンダーへ登録',
+			top: 5,
+			width: g.disp.width
+		});
+		view.add(cal);
+		var intent_cal = Ti.Android.createIntent({
+			action: Ti.Android.ACTION_EDIT,
+			type: 'vnd.android.cursor.item/event'
+		});
+		intent_cal.putExtra("title", o.title);
+		intent_cal.putExtra("eventLocation", o.where);
+		intent_cal.putExtra("description", o.content);
+		intent_cal.putExtra("startTime", new Date(o.when.start).getTime());
+		intent_cal.putExtra("endTime", new Date(o.when.end).getTime());
+		intent_cal.putExtra("dtstart", new Date(o.when.start).getTime());
+		intent_cal.putExtra("dtend", new Date(o.when.end).getTime());
+		intent_cal.putExtra("allDay", allday);
+		cal.addEventListener('click', function () {
+			try {
+				Ti.Android.currentActivity.startActivity(intent_cal);
+			} catch (e) {
+				alert('この操作を実行できるアプリケーションはありません。');
+				Ti.API.debug('Intent: ' + JSON.stringify(e));
+			}
 		});
 	} else {
 		link.color = '#04b';

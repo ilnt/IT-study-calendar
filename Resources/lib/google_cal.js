@@ -122,13 +122,6 @@ function cal(LoadingView) {
 	}
 	// get Google Calendar
 	this.get = function (query, callback, cache) {
-		// If offline
-		/* これを使うと、b-mobile SIMなどで正常に動作しない
-		if (Titanium.Network.online === false) {
-			alert('ネットワークに接続されていません。');
-			return false;
-		}
-		*/
 		Ti.API.info('Request: ' + JSON.stringify(query));
 		query = queryString(query);
 		// Cache

@@ -25,13 +25,12 @@ if (g.enableCal) {
 if (g.android) {
 	win.activity.onCreateOptionsMenu = function (e) {
 		var menu = e.menu;
-		var search = menu.add({title: '検索'});
-		var reload = menu.add({title: '更新'});
 		
 		// カレンダーUI有効時のみ
 		if (g.enableCal) {
 			var list = menu.add({title: '一覧'});
 			// 一覧表示
+			list.setIcon(Ti.Android.R.drawable.ic_menu_agenda);
 			list.addEventListener('click', function () {
 				g.gCal.get('LAST_QUERY', function (res) {
 					require('ui/CreateWindow').EventList(g, res.entry).open();
@@ -39,15 +38,20 @@ if (g.android) {
 			});
 		}
 		// 検索機能
+		var search = menu.add({title: '検索'});
+		search.setIcon(Ti.Android.R.drawable.ic_menu_search);
 		search.addEventListener('click', function () {
 			require('ui/CreateWindow').Search(g).open();
 		});
 		// データ更新
+		var reload = menu.add({title: '更新'});
+		reload.setIcon(Ti.Android.R.drawable.ic_menu_rotate);
 		reload.addEventListener('click', function () {
 			ScrollableView.fireEvent('reload', {cache: false});
 		});
 		// 設定画面
 		var settings = menu.add({title: '設定'});
+		settings.setIcon(Ti.Android.R.drawable.ic_menu_preferences);
 		settings.addEventListener('click', function () {
 			require('ui/CreateWindow').Settings(g).open();
 		});

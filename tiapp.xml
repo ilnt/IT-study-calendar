@@ -11,7 +11,7 @@
     <sdk-version>2.0.1.GA2</sdk-version>
     <id>jp.co.infiniteloop.itstudycal</id>
     <name>IT Study Calendar</name>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
     <publisher>infiniteloop</publisher>
     <url>http://www.infiniteloop.co.jp/</url>
     <description>IT study calendar</description>
@@ -37,12 +37,10 @@
         </orientations>
     </iphone>
     <android xmlns:android="http://schemas.android.com/apk/res/android">
-        <manifest android:versionCode="1" android:versionName="0.1.0">
+        <manifest android:versionCode="2" android:versionName="0.1.1" android:installLocation="auto">
             <supports-screens android:anyDensity="false"/>
-            <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
+            <uses-sdk android:minSdkVersion="8"/>
             <uses-permission android:name="android.permission.INTERNET"/>
-            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-            <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
         </manifest>
     </android>
     <modules/>
