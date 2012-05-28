@@ -15,10 +15,13 @@ if (g.enableCal) {
 	var ScrollableView = require('ui/ScrollableView')(g);
 	win.add(ScrollableView);
 } else {
+//	win.layout = 'vertical';
 	// load Scrollable_ View (New version)
 	var ScrollableView = require('ui/ScrollableView_')(g);
 	win.add(ScrollableView);
 	g.EventListView = ScrollableView;
+//	var MenuView = require('ui/MenuView')(g);
+//	win.add(MenuView);
 }
 
 // Android Only(Menu)

@@ -48,11 +48,14 @@ module.exports = function (g, o) {
 	var title = label('タイトル: ' + o.title);
 	var place = label('場所: ' + o.where);
 	var content = label('内容: ' + o.content);
-	var link = label('リンク: ' + o.link);
+	var link = label(' Googleカレンダーへのリンク');
+	link.color = '#04b';
+	link.addEventListener('click', function () {
+		Ti.Platform.openURL(o.link);
+	});
 	if (g.android) {
 		// Auto link
 		content.autoLink = Titanium.UI.Android.LINKIFY_WEB_URLS;
-		link.autoLink = Titanium.UI.Android.LINKIFY_WEB_URLS;
 		
 		// 地図検索
 		var intent = Ti.Android.createIntent({
@@ -108,14 +111,7 @@ module.exports = function (g, o) {
 				Ti.API.debug('Intent: ' + JSON.stringify(e));
 			}
 		});
-	} else {
-		link.color = '#04b';
-		link.addEventListener('click', function () {
-			Ti.Platform.openURL(o.link);
-		});
 	}
-	link.ellipsize = true;
-	link.height = 20;
 	
 	return view;
 };

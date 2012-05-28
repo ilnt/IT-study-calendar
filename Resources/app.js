@@ -21,7 +21,7 @@ else {
 	// Global object
 	var g = {
 		loadConfig: config.load,
-		enableCal: config.load('enableCal'),
+//		enableCal: config.load('enableCal'),
 		gCal: {},
 		disp: {
 			width: Ti.Platform.displayCaps.platformWidth,

@@ -33,6 +33,8 @@ module.exports = function (g) {
 	}
 	
 	var scroll = Ti.UI.createScrollableView({
+		top: 0,
+		height: g.disp.height,// - 48,
 	//	views: [addBlankView('先月に移動'), addCalendar(0), addBlankView('来月に移動')],
 		views: [addCalendar(-- month.b), addCalendar(0), addCalendar(++ month.f)],
 		showPagingControl: false

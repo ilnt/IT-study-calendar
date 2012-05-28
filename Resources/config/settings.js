@@ -68,7 +68,7 @@ module.exports = new function () {
 				'沖縄県': ['沖縄']
 			}
 		},
-		'enableCal': {
+/*		'enableCal': {
 			name: 'Calendar View α',
 			type: 'check',
 			title: 'カレンダービューαを使う(要再起動)',
@@ -98,7 +98,7 @@ module.exports = new function () {
 				};
 			}
 		},
-		'version': {
+*/		'version': {
 			name: 'Version Beta',
 			type: 'button',
 			title: 'Version ' + Ti.App.getVersion() + ' [2012/05/22]',
