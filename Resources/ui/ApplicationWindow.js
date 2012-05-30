@@ -6,9 +6,10 @@ g = win.g;
 // load Loading View
 LoadingView = require('ui/LoadingView')();
 win.add(LoadingView);
+g.LoadingView = LoadingView;
 
 // set gCal
-g.gCal = require('lib/google_cal')(LoadingView);
+g.gCal = require('lib/google_cal')(g);
 
 if (g.enableCal) {
 	// load Scrollable View

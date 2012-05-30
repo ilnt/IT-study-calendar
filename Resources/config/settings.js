@@ -111,6 +111,10 @@ module.exports = new function () {
 	this.load = function (id) {
 		var	item = that.settings[id],
 			set;
+		if (! item) {
+			Ti.API.debug('Can not load config: ' + id);
+			return false;
+		}
 		switch (item.type) {
 			case 'select':
 				set = Ti.App.Properties.getList(id);
@@ -126,6 +130,10 @@ module.exports = new function () {
 	};
 	this.set = function (id, data) {
 		var	item = that.settings[id];
+		if (! item) {
+			Ti.API.info('Can not set config: ' + id);
+			return false;
+		}
 		switch (item.type) {
 			case 'select':
 				Ti.App.Properties.setList(id, data);

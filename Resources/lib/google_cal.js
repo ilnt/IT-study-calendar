@@ -1,7 +1,7 @@
 /*
  * Google Calendar API
  */
-function cal(LoadingView) {
+function cal(g) {
 	var	baseURL = 'https://www.google.com/calendar/feeds/fvijvohm91uifvd9hratehf65k%40group.calendar.google.com/public/embed?alt=json',
 		dataCache = {},
 		predefined = {
@@ -131,7 +131,7 @@ function cal(LoadingView) {
 			if (data) {
 				data = filter(JSON.parse(data));
 				// カレンダーUI有効時のみ
-				if (config.load('enableCal'))
+				if (g.enableCal)
 					// ウィンドウが完全に表示される前に描画を始めると失敗する
 					setTimeout(callback, 1000, data);
 				else
@@ -140,7 +140,7 @@ function cal(LoadingView) {
 			}
 		}
 		// Open loading view
-		LoadingView.fireEvent('openBar');
+		g.LoadingView.fireEvent('openBar');
 		// HTTP Client
 		var client = Ti.Network.createHTTPClient({
 			ondatastream: function (e) {
@@ -153,12 +153,12 @@ function cal(LoadingView) {
 				// Cache
 				dataCache[query] = JSON.stringify(data);
 				// Close loading view
-				LoadingView.fireEvent('closeBar');
+				g.LoadingView.fireEvent('closeBar');
 				callback(filter(data));
 			},
 			onerror: function (e) {
 				// Close loading view
-				LoadingView.fireEvent('closeBar');
+				g.LoadingView.fireEvent('closeBar');
 				alert('Network error.');
 			},
 			timeout: 5000
