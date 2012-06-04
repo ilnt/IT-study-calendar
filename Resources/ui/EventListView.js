@@ -16,7 +16,13 @@ module.exports = function (g, title) {
 	table.addEventListener('openView', function (items) {
 		var rowData = [];
 		var dateSection = false;
-		items.forEach(function (item) {
+		
+		if (items.length === 0) {
+			rowData = [Ti.UI.createTableViewRow({
+				title: '該当するイベントがありません。',
+				color: '#000'
+			})];
+		} else items.forEach(function (item) {
 			// date format
 			// 2012-05-01T12:00:00.000+09:00 -> 2012-05-01 OR 2012-05-01 -> 2012-05-01
 			var dateStr = item.when.start.split('.')[0].split(':');
@@ -41,12 +47,7 @@ module.exports = function (g, title) {
 				require('ui/CreateWindow').EventDetail(g, item).open();
 			});
 		});
-		if (rowData.length === 0) {
-			rowData = [Ti.UI.createTableViewRow({
-				title: '該当するイベントがありません。',
-				color: '#000'
-			})];
-		}
+		
 		table.data = [header].concat(rowData);
 	});
 	

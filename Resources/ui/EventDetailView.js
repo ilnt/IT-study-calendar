@@ -4,15 +4,40 @@ module.exports = function (g, o) {
 		layout: 'vertical'
 	});
 	
-	function label(str) {
-		var text = Ti.UI.createLabel({
-			top: 10,
-			left: 0,
-			text: str,
-			color: '#000',
+	function createTextLine(keyStr, valStr) {
+		var key = Ti.UI.createLabel({
+			top: 0,
+			left: 5,
+			height: 32,
+			text: keyStr,
+			color: '#222',
 			font: {fontSize: 16}
 		});
-		view.add(text);
+		view.add(key);
+		var val = Ti.UI.createLabel({
+			top: -27,
+			left: 50,
+			text: valStr,
+			color: '#555',
+			font: {fontSize: 16}
+		});
+		view.add(val);
+		
+		return {
+			key: key,
+			val: val
+		};
+	}
+	
+	function label(str, parent) {
+		var text = Ti.UI.createLabel({
+			left: 0,
+			width: g.disp.width,
+			text: str,
+			color: '#222',
+			font: {fontSize: 16}
+		});
+		(parent ? parent : view).add(text);
 		return text;
 	}
 	
@@ -44,18 +69,35 @@ module.exports = function (g, o) {
 		allday = period[0] === period[1];
 	}
 	var timeLabel = String(allday ? d.start[0] : d.start[0] + ' ' + d.start[1] + ' ~ ' + d.end[0] + ' ' + d.end[1]);
-	var time = label(timeLabel);
-	var title = label('タイトル: ' + o.title);
-	var place = label('場所: ' + o.where);
-	var content = label('内容: ' + o.content);
-	var link = label(' Googleカレンダーへのリンク');
+	
+	var title = label(o.title);
+	title.top = 3;
+	title.font = {fontSize: 18};
+	title.backgroundColor = '#f9f9f9';
+	
+	var hr = Ti.UI.createView({
+		top: 3,
+		height: 3,
+		backgroundColor: '#177bbd'
+	});
+	view.add(hr);
+	
+	var time = createTextLine('時間 :', timeLabel);
+	time.val.font = {fontSize: 15};
+	time.val.color = '#555';
+	var place = createTextLine('場所 :', o.where);
+	var content = createTextLine('内容 :', o.content);
+	content.val.height = 'auto';
+	var link = label('Googleカレンダーへのリンク');
+	link.top = 15;
+	link.left = 5;
 	link.color = '#04b';
 	link.addEventListener('click', function () {
 		Ti.Platform.openURL(o.link);
 	});
 	if (g.android) {
 		// Auto link
-		content.autoLink = Titanium.UI.Android.LINKIFY_WEB_URLS;
+		content.val.autoLink = Titanium.UI.Android.LINKIFY_WEB_URLS;
 		
 		// 地図検索
 		var intent = Ti.Android.createIntent({
@@ -63,8 +105,8 @@ module.exports = function (g, o) {
 			data: 'geo:0,0?q=' + encodeURIComponent(o.where)
 		});
 		chooser = Ti.Android.createIntentChooser(intent, 'アプリケーションを選択');
-		place.color = '#04b';
-		place.addEventListener('click', function () {
+		place.val.color = '#04b';
+		place.val.addEventListener('click', function () {
 			Ti.Android.currentActivity.startActivity(chooser);
 		});
 		

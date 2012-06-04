@@ -68,40 +68,10 @@ module.exports = new function () {
 				'沖縄県': ['沖縄']
 			}
 		},
-/*		'enableCal': {
-			name: 'Calendar View α',
-			type: 'check',
-			title: 'カレンダービューαを使う(要再起動)',
-			init: false,
-			callback: function (g, check, cb) {
-				if (check) {
-					var dialog = Ti.UI.createOptionDialog({
-						title: 'CalendarViewは不安定です。本当に変更しますか？',
-						options: ['いいえ', 'はい'],
-						destructive: 1,
-						cancel: 0
-					});
-					dialog.addEventListener('click', function (e) {
-						if (e.cancel) {
-							cb(false);
-						} else {
-							cb(true);
-							if (g.android)
-								alert('アプリを再起動して下さい');
-						}
-					});
-					dialog.show();
-				} else {
-					cb(true);
-					if (g.android)
-						alert('アプリを再起動して下さい');
-				};
-			}
-		},
-*/		'version': {
-			name: 'Version Beta',
+		'version': {
+			name: 'Info',
 			type: 'button',
-			title: 'Version ' + Ti.App.getVersion() + ' [2012/05/22]',
+			title: Ti.App.getName() + '  v' + Ti.App.getVersion(),
 			init: null,
 			callback: function () {
 				Ti.Platform.openURL('https://github.com/ilnt/IT-study-calendar');
