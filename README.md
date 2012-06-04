@@ -1,5 +1,5 @@
-# IT勉強会カレンダー for Android
-IT勉強会カレンダーから1ヶ月毎に勉強会の一覧を取得して表示するAndroidアプリです。
+# IT 勉強会カレンダー for Android
+[IT 勉強会カレンダー](https://www.google.com/calendar/embed?src=fvijvohm91uifvd9hratehf65k%40group.calendar.google.com)から1ヶ月毎に勉強会の一覧を取得して表示するAndroidアプリです。
 
 ## 主な機能
 - 1ヶ月毎の検索
@@ -11,5 +11,10 @@ IT勉強会カレンダーから1ヶ月毎に勉強会の一覧を取得して�
 - インターネットに接続されていること
 
 ## 更新履歴
+### v0.1.1: 2012/06/04
+- Remove CalendarView
+- Add calendar button
+- bug fix
+
 ### v0.1.0: 2012/05/22
 - Beta release
