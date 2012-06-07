@@ -14,7 +14,7 @@
     <version>0.1.1</version>
     <publisher>infiniteloop</publisher>
     <url>http://www.infiniteloop.co.jp/</url>
-    <description>IT study calendar</description>
+    <description>IT 勉強会カレンダー for Smartphone</description>
     <copyright>infiniteloop</copyright>
     <icon>appicon.png</icon>
     <persistent-wifi>false</persistent-wifi>
@@ -37,7 +37,7 @@
         </orientations>
     </iphone>
     <android xmlns:android="http://schemas.android.com/apk/res/android">
-        <manifest android:installLocation="auto" android:versionCode="2" android:versionName="0.1.1">
+        <manifest android:installLocation="auto" android:versionCode="1" android:versionName="0.1.1">
             <supports-screens android:anyDensity="false"/>
             <uses-sdk android:minSdkVersion="8"/>
             <uses-permission android:name="android.permission.INTERNET"/>

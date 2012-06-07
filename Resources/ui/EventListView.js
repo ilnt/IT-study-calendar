@@ -6,8 +6,8 @@ module.exports = function (g, title) {
 	var header = Ti.UI.createTableViewRow({
 		title: title ? title : '一覧',
 		color: '#fff',
-		backgroundColor: '#4080bf',
-		backgroundSelectedColor: '#4080bf',
+		backgroundColor: '#177bbd',
+		backgroundSelectedColor: '#177bbd',
 		font: {fontSize: 18, fontWeight: 'bold'},
 		touchEnabled: false
 	});
