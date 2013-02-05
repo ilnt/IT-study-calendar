@@ -1,4 +1,7 @@
 // Event View
+
+var calendar = require("lib/calendar");
+
 module.exports = function (g, o) {
 	var view = Ti.UI.createView({
 		layout: 'vertical'
@@ -52,7 +55,9 @@ module.exports = function (g, o) {
 	
 	var	d = {
 			start: dateFormat(o.when.start),
-			end: dateFormat(o.when.end)
+			end: dateFormat(o.when.end),
+			startTimeInMS: new Date(o.when.start).getTime(),
+			endTimeInMS: new Date(o.when.end).getTime()
 		},
 		period = [],
 		allday = false;
@@ -110,6 +115,18 @@ module.exports = function (g, o) {
 			Ti.Android.currentActivity.startActivity(chooser);
 		});
 		
+		// intent の多重発行防止
+		var intent_enable = true;
+		var intent_call = function (callback) {
+			if (intent_enable) {
+				intent_enable = false;
+				setTimeout(function () {
+					intent_enable = true;
+				}, 500);
+				callback();
+			}
+		};
+		
 		// 共有
 		var share = Ti.UI.createButton({
 			title: '共有',
@@ -123,7 +140,9 @@ module.exports = function (g, o) {
 		});
 		intent_share.putExtra(Ti.Android.EXTRA_TEXT, o.title + ' #IT勉強会カレンダー');
 		share.addEventListener('click', function () {
-			Ti.Android.currentActivity.startActivity(intent_share);
+			intent_call(function () {
+				Ti.Android.currentActivity.startActivity(intent_share);
+			});
 		});
 		
 		// カレンダーへ登録
@@ -133,25 +152,18 @@ module.exports = function (g, o) {
 			width: g.disp.width
 		});
 		view.add(cal);
-		var intent_cal = Ti.Android.createIntent({
-			action: Ti.Android.ACTION_EDIT,
-			type: 'vnd.android.cursor.item/event'
-		});
-		intent_cal.putExtra("title", o.title);
-		intent_cal.putExtra("eventLocation", o.where);
-		intent_cal.putExtra("description", o.content);
-		intent_cal.putExtra("startTime", new Date(o.when.start).getTime());
-		intent_cal.putExtra("endTime", new Date(o.when.end).getTime());
-		intent_cal.putExtra("dtstart", new Date(o.when.start).getTime());
-		intent_cal.putExtra("dtend", new Date(o.when.end).getTime());
-		intent_cal.putExtra("allDay", allday);
 		cal.addEventListener('click', function () {
-			try {
-				Ti.Android.currentActivity.startActivity(intent_cal);
-			} catch (e) {
-				alert('この操作を実行できるアプリケーションはありません。');
-				Ti.API.debug('Intent: ' + JSON.stringify(e));
-			}
+			intent_call(function () {
+				calendar.addEvent({
+					"title": o.title,
+					"location": o.where,
+					"description": o.content,
+					"timezone": "JST",
+					"start": Number(d.startTimeInMS),
+					"end": Number(d.endTimeInMS),
+					"allday": allday
+				});
+			});
 		});
 	}
 	

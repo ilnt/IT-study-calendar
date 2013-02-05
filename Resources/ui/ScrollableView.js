@@ -18,9 +18,10 @@ module.exports = function (g) {
 			'max-results': 1440
 		};
 		// reload event
-		EventListView.addEventListener('reload', function (cache) {
+		EventListView.addEventListener('reload', function (e) {
+			var cache = e.cache;
 			g.gCal.get(query, function (res) {
-				EventListView.fireEvent('openView', res.entry);
+				EventListView.fireEvent('openView', {items: res.entry});
 			}, cache);
 		});
 		// set views obj
@@ -55,23 +56,29 @@ module.exports = function (g) {
 	scroll.setCurrentPage(currentPageIndex);
 	
 	// イベント一覧の更新
-	scroll.addEventListener('reload', function (cache) {
+	scroll.addEventListener('reload', function (e) {
+		var cache = e.cache;
 		// 設定変更などで全てのViewの再描画が必要な場合
 		if (cache === 'refresh') {
 			Object.keys(views).forEach(function (key) {
 				var viewObj = views[key];
 				if (viewObj.loaded)
-					viewObj.view.fireEvent('reload', true);
+					viewObj.view.fireEvent('reload', {cache: true});
 			});
+			scroll.fireEvent('scroll', {currentPage: scroll.currentPage});
 		} else {
 			var currentView = scroll.views[scroll.getCurrentPage()];
-			currentView.fireEvent('reload', cache);
+			currentView.fireEvent('reload', {cache: cache});
 		}
 	});
+	
 	// スクロール時にViewを追加
+	var scrollable = true;
 	scroll.addEventListener('scroll', function (e) {
+		if (! scrollable)
+			return false;
 		var	pageSize = scroll.views.length,
-			currentPage = e.currentPage,
+			currentPage = e.currentPage || scroll.currentPage,
 			viewsId = Object.keys(views);
 		
 		viewsId.sort(function (a, b) {return a - b});
@@ -79,8 +86,12 @@ module.exports = function (g) {
 		var viewObj = views[viewsId[currentPage]];
 		// 読み込み済みか
 		if (! viewObj.loaded) {
+			scrollable = false;
+			setTimeout(function () {
+				scrollable = true;
+			}, 500);
 			viewObj.loaded = true;
-			viewObj.view.fireEvent('reload', true);
+			viewObj.view.fireEvent('reload', {cache: true});
 		} else
 			g.gCal.setCurrentQuery(viewObj.query);
 		// 先頭, 末尾の場合にViewを追加
@@ -89,6 +100,7 @@ module.exports = function (g) {
 		else if (currentPage === pageSize - 1)
 			scroll.addAfter(addCalendar(++ month.f));
 	});
+	scroll.fireEvent('scroll', {currentPage: 1});
 	
 	return scroll;
 };

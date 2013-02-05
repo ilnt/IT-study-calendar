@@ -12,12 +12,15 @@ module.exports = new function () {
 			title: '地域未指定',
 			init: [],
 			callback: function (g) {
-				alert('カレンダーの描画が終わるまでお待ちください。');
 				// UIに適用
-				g.EventListView.fireEvent('reload', 'refresh');
+				setTimeout(function () {
+					alert('カレンダーの描画が終わるまでお待ちください。');
+					g.EventListView.fireEvent('reload', {cache: 'refresh'});
+				}, 10);
 			},
 			data: {
 				// 表示名: 検索名(複数指定可能)
+			//	'締切': ['締切', '〆切'],
 				'オンライン': ['オンライン'],
 				'北海道': ['北海道'],
 				'青森県': ['青森'],

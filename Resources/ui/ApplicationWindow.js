@@ -12,11 +12,9 @@ g.LoadingView = LoadingView;
 g.gCal = require('lib/google_cal')(g);
 
 //	win.layout = 'vertical';
-var ScrollableView = require('ui/ScrollableView_')(g);
+var ScrollableView = require('ui/ScrollableView')(g);
 win.add(ScrollableView);
 g.EventListView = ScrollableView;
-//	var MenuView = require('ui/MenuView')(g);
-//	win.add(MenuView);
 
 // Android Only(Menu)
 if (g.android) {

@@ -12,7 +12,7 @@ exports.EventList = function (g, items) {
 	var view = require('ui/EventListView')(g);
 	win.add(view);
 	win.addEventListener('open', function () {
-		view.fireEvent('openView', items);
+		view.fireEvent('openView', {items: items});
 	});
 	return win;
 };
