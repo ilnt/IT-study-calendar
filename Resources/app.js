@@ -1,22 +1,15 @@
-/*
- * Single Window Application Template:
- * A basic starting point for your application.  Mostly a blank canvas.
- * 
- * In app.js, we generally take care of a few things:
- * - Bootstrap the application with any data we need
- * - Check for dependencies like device type, platform version or network connection
- * - Require and open our top-level UI component
- *  
+/**
+ * app.js
  */
 
 //bootstrap and check dependencies
 if (Ti.version < 1.8) {
 	alert('Sorry - this application template requires Titanium Mobile SDK 1.8 or later');
-}
-else if (Ti.Platform.osname === 'mobileweb') {
+} else if (Ti.Platform.osname === 'mobileweb') {
 	alert('Mobile web is not yet supported by this template');
-}
-else {
+} else bootstrap();
+
+function bootstrap() {
 	var config = require('config/settings');
 	// Global object
 	var g = {
@@ -32,7 +25,6 @@ else {
 			Ti.UI.LANDSCAPE_LEFT,
 			Ti.UI.LANDSCAPE_RIGHT*/
 		],
-		android: Ti.Platform.osname === 'android',
 		toast: function (message) {
 			Ti.UI.createNotification({
 				message: message,
@@ -95,26 +87,25 @@ else {
 			}));
 			days = [].concat.apply([], days);
 			ymd = [].concat.apply([], ymd);
-			Ti.API.info(JSON.stringify(days));
 			dateobj.days = days;
 			dateobj.ymd = ymd;
 			dateobj.nextMonthPaddingDays = nextMonthPaddingDays;
 			
 			return dateobj;
-		}
+		},
+		dip: function (size) {return size + "dip"},
+		currentWindow: null,
+		createWindow: require('ui/CreateWindow'),
+		createMenu: require("ui/CreateMenu")
 	};
 	
-	var win = Ti.UI.createWindow({
-		url: 'ui/ApplicationWindow.js',
-		backgroundColor: '#fff',
-		navBarHidden: true,
-		exitOnClose: true,
-		orientationModes: g.orientationModes
-	});
+	// initialize CreateWindow
+	g.createWindow = g.createWindow();
+	// open main view
+	g.createWindow.Application().open();
+	
 	Ti.Gesture.addEventListener('orientationchange', function (e) {
-		Ti.API.info(e.orientation);
+		Ti.API.info("orientation: " + e.orientation);
 		// Ti.UI.setOrientation(e.orientation);
 	});
-	win.g = g;
-	win.open();
 }

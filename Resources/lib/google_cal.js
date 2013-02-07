@@ -143,10 +143,6 @@ function cal(g) {
 		g.LoadingView.fireEvent('openBar');
 		// HTTP Client
 		var client = Ti.Network.createHTTPClient({
-			ondatastream: function (e) {
-				// Ti.API.info(e.progress);
-				Ti.API.info(e.totalSize);
-			},
 			onload: function (e) {
 				var res = JSON.parse(this.responseText);
 				var data = format(res);

@@ -2,10 +2,33 @@
 
 var calendar = require("lib/calendar");
 
-module.exports = function (g, o) {
+module.exports = function (o) {
+	var g = this;
+	
+	var outer = Ti.UI.createView();
+	
 	var view = Ti.UI.createView({
 		layout: 'vertical'
 	});
+	outer.add(view);
+	
+	var header = Ti.UI.createView({
+		height: g.dip(50),
+		backgroundColor: '#177bbd',
+	});
+	var headerLabel = Ti.UI.createLabel({
+		height: g.dip(50),
+		top: 0,
+		left: g.dip(5),
+		text: 'イベント詳細',
+		color: '#fff',
+		font: {fontSize: 18, fontWeight: 'bold'}
+	});
+	header.add(headerLabel);
+	view.add(header);
+	
+	// set menu
+	g.createMenu(outer, {}, true);
 	
 	function createTextLine(keyStr, valStr) {
 		var key = Ti.UI.createLabel({
@@ -100,7 +123,7 @@ module.exports = function (g, o) {
 	link.addEventListener('click', function () {
 		Ti.Platform.openURL(o.link);
 	});
-	if (g.android) {
+	if (Ti.Platform.Android) {
 		// Auto link
 		content.val.autoLink = Titanium.UI.Android.LINKIFY_WEB_URLS;
 		
@@ -167,5 +190,5 @@ module.exports = function (g, o) {
 		});
 	}
 	
-	return view;
+	return outer;
 };

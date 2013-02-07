@@ -1,6 +1,8 @@
 // Scrollable View
-var win = Ti.UI.currentWindow;
-module.exports = function (g) {
+
+module.exports = function () {
+	var g = this;
+	
 	var	month = {b:0, f:0},
 		// View管理用Object
 		views = {},
@@ -11,26 +13,26 @@ module.exports = function (g) {
 		date.setMonth(date.getMonth() + month_d);
 		// load EventList View
 		var date = g.getDate(date);
-		var EventListView = require('ui/EventListView')(g, date.year + '年 ' + (date.month + 1) + '月');
+		var EventListView_ = g.createWindow.EventList(date.year + '年 ' + (date.month + 1) + '月');
 		var query = {
 			'start-min': date.year + '-' + date.zeroPadding(date.month + 1) + '-' + '01T00:00:00+09:00',
 			'start-max': date.year + '-' + date.zeroPadding(date.month + 1) + '-' + date.zeroPadding(date.currentMonthLastDate) + 'T23:59:59+09:00',
 			'max-results': 1440
 		};
 		// reload event
-		EventListView.addEventListener('reload', function (e) {
+		EventListView_.addEventListener('reload', function (e) {
 			var cache = e.cache;
 			g.gCal.get(query, function (res) {
-				EventListView.fireEvent('openView', {items: res.entry});
+				EventListView_.fireEvent('openView', {items: res.entry});
 			}, cache);
 		});
 		// set views obj
 		views[month_d] = {
 			loaded: false,
-			view: EventListView,
+			view: EventListView_,
 			query: query
 		};
-		return EventListView;
+		return EventListView_;
 	}
 	
 	var scroll = Ti.UI.createScrollableView({
@@ -43,7 +45,9 @@ module.exports = function (g) {
 	// 先頭にViewを追加
 	scroll.addBefore = function (view) {
 		// 先頭にViewを追加することでViewのindex番号が変わり1つ前(左)にズレるので1つ次(右)へ移動
-		this.moveNext();
+		this.moveNext
+			? this.moveNext()
+			: this.currentPage += 1;
 		this.setViews((view instanceof Array ? view : [view]).concat(this.views));
 	};
 	// 末尾にViewを追加
@@ -60,30 +64,34 @@ module.exports = function (g) {
 		var cache = e.cache;
 		// 設定変更などで全てのViewの再描画が必要な場合
 		if (cache === 'refresh') {
+			// 再帰的に再読み込み
 			Object.keys(views).forEach(function (key) {
 				var viewObj = views[key];
 				if (viewObj.loaded)
-					viewObj.view.fireEvent('reload', {cache: true});
+					viewObj.view.fireEvent('reload', {cache: true, bubbles: false});
 			});
 			scroll.fireEvent('scroll', {currentPage: scroll.currentPage});
 		} else {
-			var currentView = scroll.views[scroll.getCurrentPage()];
-			currentView.fireEvent('reload', {cache: cache});
+			var currentView = scroll.views[scroll.currentPage];
+			currentView.fireEvent('reload', {cache: cache, bubbles: false});
 		}
 	});
 	
 	// スクロール時にViewを追加
 	var scrollable = true;
 	scroll.addEventListener('scroll', function (e) {
-		if (! scrollable)
+		// event list view 挿入時の event と scrollableView 以外の event を除外
+		if (! scrollable || e.source !== scroll)
 			return false;
+		
 		var	pageSize = scroll.views.length,
-			currentPage = e.currentPage || scroll.currentPage,
+			currentPage = e.currentPage,
 			viewsId = Object.keys(views);
 		
 		viewsId.sort(function (a, b) {return a - b});
 		Ti.API.info('currentPage: ' + currentPage);
 		var viewObj = views[viewsId[currentPage]];
+		Ti.API.info("loaded: " + viewObj.loaded);
 		// 読み込み済みか
 		if (! viewObj.loaded) {
 			scrollable = false;
@@ -91,7 +99,7 @@ module.exports = function (g) {
 				scrollable = true;
 			}, 500);
 			viewObj.loaded = true;
-			viewObj.view.fireEvent('reload', {cache: true});
+			viewObj.view.fireEvent('reload', {cache: true, bubbles: false});
 		} else
 			g.gCal.setCurrentQuery(viewObj.query);
 		// 先頭, 末尾の場合にViewを追加

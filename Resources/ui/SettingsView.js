@@ -1,11 +1,37 @@
 // Settings Window
-module.exports = function (g) {
+module.exports = function () {
+	var g = this;
+	
+	var view = Ti.UI.createView();
+	
+	var wrapper = Ti.UI.createView({
+		layout: "vertical"
+	});
+	view.add(wrapper);
+	
+	var header = Ti.UI.createView({
+		height: g.dip(50),
+		backgroundColor: '#177bbd',
+	});
+	var headerLabel = Ti.UI.createLabel({
+		height: g.dip(50),
+		top: 0,
+		left: g.dip(5),
+		text: '設定',
+		color: '#fff',
+		font: {fontSize: 18, fontWeight: 'bold'}
+	});
+	header.add(headerLabel);
+	wrapper.add(header);
+	
+	// set menu
+	g.createMenu(view, {}, true);
+	
 	var	config = require('config/settings'),
 		settings = config.settings,
 		sections = [],
 		tableView = Ti.UI.createTableView({
-			backgroundColor: '#000',
-			color: '#fff'
+			backgroundColor: '#000'
 		});
 	Object.keys(settings).forEach(function (id) {
 		var item = settings[id];
@@ -14,7 +40,11 @@ module.exports = function (g) {
 		});
 		sections.push(section);
 		var setval = config.load(id);
-		var row = Ti.UI.createTableViewRow();
+		var row = Ti.UI.createTableViewRow({
+			height: g.dip(40),
+			color: "#fff",
+			font: {fontSize: g.dip(18)}
+		});
 		
 		switch (item.type) {
 			case 'button':
@@ -50,14 +80,43 @@ module.exports = function (g) {
 				row.title = JSON.stringify(setval) !== JSON.stringify(item.init) ? setval.join(',') : item.title;
 				row.hasChild = true;
 				row.addEventListener('click', function () {
-					var win = require('ui/CreateWindow').Selecting(g, item);
-					var table = Ti.UI.createTableView();
-					win.add(table);
+					var win = g.createWindow.Selecting(item);
+					
+					var view = Ti.UI.createView();
+					win.add(view);
+					var wrapper = Ti.UI.createView({
+						layout: "vertical"
+					});
+					view.add(wrapper);
+					
+					var header = Ti.UI.createView({
+						height: g.dip(50),
+						backgroundColor: '#177bbd',
+					});
+					var headerLabel = Ti.UI.createLabel({
+						height: g.dip(50),
+						top: 0,
+						left: g.dip(5),
+						text: item.name,
+						color: '#fff',
+						font: {fontSize: 18, fontWeight: 'bold'}
+					});
+					header.add(headerLabel);
+					wrapper.add(header);
+					// set menu
+					g.createMenu(view, {}, true);
+					
+					var table = Ti.UI.createTableView({
+						backgroundColor: '#000'
+					});
+					wrapper.add(table);
 					
 					var data = [];
 					Object.keys(item.data).forEach(function (title) {
 						var tableViewRow = Ti.UI.createTableViewRow({
-							title: title
+							title: title,
+							color: '#fff',
+							font: {fontSize: 18, fontWeight: 'bold'}
 						});
 						if (~ setval.indexOf(title)) tableViewRow.hasCheck = true;
 						data.push(tableViewRow);
@@ -97,5 +156,6 @@ module.exports = function (g) {
 	});
 	tableView.data = sections;
 	
-	return tableView;
+	wrapper.add(tableView);
+	return view;
 };

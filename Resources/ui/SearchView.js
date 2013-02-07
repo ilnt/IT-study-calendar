@@ -1,19 +1,32 @@
 // Search View
-var win = Ti.UI.currentWindow;
-module.exports = function (g) {
+
+module.exports = function () {
+	var g = this;
+	
 	var wrapper = Ti.UI.createView({
 		height: g.disp.height,
 		layout: 'vertical',
 		top: 0
-	}); 
+	});
 	
 	var view = Ti.UI.createView({
 		height: g.disp.height / 10,
 		top: 0
 	});
 	
-	var eventList = require('ui/EventListView')(g);
+	var outer = Ti.UI.createView();
+	var eventList = g.createWindow.EventList("一覧");
 	eventList.height = g.disp.height / 10 * 9;
+	
+	outer.add(eventList);
+	var menu = {
+		"設定": {
+			click: function () {
+				g.createWindow.Settings().open();
+			}
+		}
+	};
+	g.createMenu(outer, menu, true);
 	
 	var search = Ti.UI.createSearchBar({
 		width: g.disp.width / 10 * 7,
@@ -41,7 +54,7 @@ module.exports = function (g) {
 	view.add(button);
 	
 	wrapper.add(view);
-	wrapper.add(eventList);
+	wrapper.add(outer);
 	
 	return wrapper;
 };

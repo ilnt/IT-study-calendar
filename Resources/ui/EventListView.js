@@ -1,19 +1,33 @@
 // Event list View
-var win = Ti.UI.currentWindow;
-module.exports = function (g, title) {
-	var table = Ti.UI.createTableView();
+
+module.exports = function (title) {
+	var g = this;
 	
-	var header = Ti.UI.createTableViewRow({
-		title: title ? title : '一覧',
-		color: '#fff',
-		backgroundColor: '#177bbd',
-		backgroundSelectedColor: '#177bbd',
-		font: {fontSize: 18, fontWeight: 'bold'},
-		touchEnabled: false
+	var view = Ti.UI.createView();
+	var wrapper = Ti.UI.createView({
+		layout: "vertical"
 	});
-	table.data = [header];
+	view.add(wrapper);
 	
-	table.addEventListener('openView', function (e) {
+	var header = Ti.UI.createView({
+		height: g.dip(50),
+		backgroundColor: '#177bbd'
+	});
+	wrapper.add(header);
+	var headerLabel = Ti.UI.createLabel({
+		top: 0,
+		left: g.dip(5),
+		height: g.dip(50),
+		text: title ? title : '一覧',
+		color: '#fff',
+		font: {fontSize: 18, fontWeight: 'bold'}
+	});
+	header.add(headerLabel);
+	
+	var table = Ti.UI.createTableView();
+	wrapper.add(table);
+	
+	view.addEventListener('openView', function (e) {
 		var items = e.items,
 			rowData = [],
 			dateSection = false,
@@ -43,17 +57,18 @@ module.exports = function (g, title) {
 			var row = Ti.UI.createTableViewRow({
 				title: item.title,
 				color: '#000',
-				hasChild: true
+				hasChild: true,
+				font: {fontSize: 18}
 			});
 			dateSection.add(row);
 			
 			row.addEventListener('click', function () {
-				require('ui/CreateWindow').EventDetail(g, item).open();
+				g.createWindow.EventDetail(item).open();
 			});
 		});
 		
-		table.data = [header].concat(rowData);
+		table.data = rowData;
 	});
 	
-	return table;
+	return view;
 };
