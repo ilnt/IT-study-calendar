@@ -17,7 +17,7 @@ function bootstrap() {
 		gCal: {},
 		disp: {
 			width: Ti.Platform.displayCaps.platformWidth,
-			height: Ti.Platform.displayCaps.platformHeight - 27
+			height: Ti.Platform.displayCaps.platformHeight
 		},
 		orientationModes: [
 			Ti.UI.PORTRAIT,

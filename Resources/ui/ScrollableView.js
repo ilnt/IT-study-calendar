@@ -37,7 +37,6 @@ module.exports = function () {
 	
 	var scroll = Ti.UI.createScrollableView({
 		top: 0,
-		height: g.disp.height,// - 48,
 	//	views: [addBlankView('先月に移動'), addCalendar(0), addBlankView('来月に移動')],
 		views: [addCalendar(-- month.b), addCalendar(0), addCalendar(++ month.f)],
 		showPagingControl: false
@@ -47,7 +46,7 @@ module.exports = function () {
 		// 先頭にViewを追加することでViewのindex番号が変わり1つ前(左)にズレるので1つ次(右)へ移動
 		this.moveNext
 			? this.moveNext()
-			: this.currentPage += 1;
+			: setTimeout(function () {scroll.currentPage += 1}, 100);
 		this.setViews((view instanceof Array ? view : [view]).concat(this.views));
 	};
 	// 末尾にViewを追加

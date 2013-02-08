@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-	<string name="welcome">Welcome to %s!</string>
+	<string name="appname">IT Study Calendar</string>
 </resources>

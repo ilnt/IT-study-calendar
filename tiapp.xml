@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:app xmlns:ti="http://ti.appcelerator.org">
-    <property name="ti.android.runtime">v8</property>
     <deployment-targets>
         <target device="mobileweb">false</target>
         <target device="iphone">true</target>
@@ -25,25 +24,20 @@
     <navbar-hidden>false</navbar-hidden>
     <analytics>false</analytics>
     <guid>602db624-b491-4309-ac9c-e59935bac10b</guid>
+    <property name="ti.ui.defaultunit">system</property>
     <iphone>
         <orientations device="iphone">
             <orientation>Ti.UI.PORTRAIT</orientation>
+            <orientation>Ti.UI.UPSIDE_PORTRAIT</orientation>
         </orientations>
         <orientations device="ipad">
             <orientation>Ti.UI.PORTRAIT</orientation>
             <orientation>Ti.UI.UPSIDE_PORTRAIT</orientation>
-            <orientation>Ti.UI.LANDSCAPE_LEFT</orientation>
-            <orientation>Ti.UI.LANDSCAPE_RIGHT</orientation>
         </orientations>
     </iphone>
-    <android xmlns:android="http://schemas.android.com/apk/res/android">
-        <manifest android:installLocation="auto" android:versionCode="1" android:versionName="0.1.1">
-            <supports-screens android:anyDensity="false"/>
-            <uses-sdk android:minSdkVersion="8"/>
-            <uses-permission android:name="android.permission.INTERNET"/>
-            <uses-permission android:name="android.permission.READ_CALENDAR"/>
-            <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
-        </manifest>
-    </android>
+    <ios>
+        <min-ios-ver>4.3</min-ios-ver>
+    </ios>
+    <android/>
     <modules/>
 </ti:app>

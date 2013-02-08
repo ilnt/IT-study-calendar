@@ -4,21 +4,19 @@ module.exports = function () {
 	var g = this;
 	
 	var wrapper = Ti.UI.createView({
-		height: g.disp.height,
 		layout: 'vertical',
 		top: 0
 	});
 	
 	var view = Ti.UI.createView({
-		height: g.disp.height / 10,
+		height: Ti.UI.SIZE,
 		top: 0
 	});
 	
 	var outer = Ti.UI.createView();
 	var eventList = g.createWindow.EventList("一覧");
-	eventList.height = g.disp.height / 10 * 9;
-	
 	outer.add(eventList);
+	
 	var menu = {
 		"設定": {
 			click: function () {
@@ -29,7 +27,8 @@ module.exports = function () {
 	g.createMenu(outer, menu, true);
 	
 	var search = Ti.UI.createSearchBar({
-		width: g.disp.width / 10 * 7,
+		width: Ti.Platform.Android ? g.disp.width / 10 * 7 : Ti.UI.FILL,
+		top: 0,
 		left: 0,
 		showCancel: false,
 		hintText: '検索キーワード'
@@ -43,15 +42,19 @@ module.exports = function () {
 	});
 	view.add(search);
 	
-	var button = Ti.UI.createButton({
-		width: g.disp.width / 10 * 3,
-		right: 0,
-		title: '検索'
-	});
-	button.addEventListener('click', function () {
-		search.fireEvent('return', {value: search.value});
-	});
-	view.add(button);
+	if (Ti.Platform.Android) {
+		search.height = g.dip(60);
+		
+		var button = Ti.UI.createButton({
+			width: g.disp.width / 10 * 3,
+			right: 0,
+			title: '検索'
+		});
+		button.addEventListener('click', function () {
+			search.fireEvent('return', {value: search.value});
+		});
+		view.add(button);
+	}
 	
 	wrapper.add(view);
 	wrapper.add(outer);
