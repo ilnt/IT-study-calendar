@@ -72,6 +72,13 @@ function cal(g) {
 					end: item.gd$when[0].endTime
 				}
 			};
+			
+			// it is for date calculations
+			eventobj.when.time = eventobj.when.start;
+			if (!~ eventobj.when.time.indexOf("T"))
+				eventobj.when.time += "T00:00:00.000+09:00";
+			eventobj.when.time = new Date(eventobj.when.time).getTime();
+			
 			// HTML entity decode
 			Object.keys(htmlEntities).forEach(function (entity) {
 				eventobj.title = eventobj.title.split(entity).join(htmlEntities[entity]);
@@ -97,7 +104,7 @@ function cal(g) {
 		
 		// obj.entry sort
 		calobj.entry.sort(function (a, b) {
-			return new Date(a.when.start).getTime() - new Date(b.when.start).getTime();
+			return a.when.time - b.when.time;
 		});
 		
 		return calobj;

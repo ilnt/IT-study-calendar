@@ -50,7 +50,7 @@ module.exports = function (title) {
 			if (! dateSection || last_dateStr !== dateStr) {
 				last_dateStr = dateStr;
 				dateSection = Ti.UI.createTableViewSection({
-					headerTitle: dateStr + " (" + week[new Date(item.when.start).getDay()] + ")"
+					headerTitle: dateStr + " (" + week[new Date(item.when.time).getDay()] + ")"
 				});
 				rowData.push(dateSection);
 			}
