@@ -21,6 +21,7 @@ function ApplicationView() {
 	view.add(ScrollableView);
 	g.EventListView = ScrollableView;
 	
+	// set menu
 	var menu = {
 		"検索": {
 			click: function () {
@@ -38,7 +39,7 @@ function ApplicationView() {
 			}
 		}
 	};
-	g.createMenu(view, menu);
+	g.createMenu(view, menu, false);
 	
 	return view;
 }

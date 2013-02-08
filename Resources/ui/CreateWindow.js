@@ -49,12 +49,13 @@ function create(g) {
 
 	// Event List Window
 	this.EventList = function (title) {
+		/*
 		var win = createWindow({
 			backgroundColor: '#fff',
 			navBarHidden: true,
 			orientationModes: g.orientationModes
 		});
-		
+		*/
 		var view = require('ui/EventListView').call(g, title);
 		/*
 		win.add(view);
@@ -63,7 +64,7 @@ function create(g) {
 		});
 		*/
 		return view;
-		return win;
+		// return win;
 	};
 	// Event Detail Window
 	this.EventDetail = function (item) {
