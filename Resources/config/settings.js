@@ -1,5 +1,7 @@
-// Settings Window data
-/* 設定画面の項目を定義します
+/**
+ * config/settings.js
+ * Settings Window data
+ * 設定画面の項目を定義します
  * this.settingsObjectの中にid(呼び出し名)をkeyとするObjectとして設定項目を追加する
  * 各設定項目のObjectにはname(設定項目名), title(副項目名), type(設定), init(初期値), callback(option:初期化関数), data(type=checkbox以外のとき)
  */

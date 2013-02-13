@@ -1,8 +1,8 @@
 /**
  * app.js
+ * bootstrap and check dependencies
  */
 
-//bootstrap and check dependencies
 if (Ti.version < 1.8) {
 	alert('Sorry - this application template requires Titanium Mobile SDK 1.8 or later');
 } else if (Ti.Platform.osname === 'mobileweb') {
@@ -12,8 +12,6 @@ if (Ti.version < 1.8) {
 function bootstrap() {
 	// Global object
 	var g = {
-		config: require('config/settings'),
-		gCal: {},
 		disp: {
 			width: Ti.Platform.displayCaps.platformWidth,
 			height: Ti.Platform.displayCaps.platformHeight
@@ -33,7 +31,8 @@ function bootstrap() {
 		alert: function (title, message) {
 			Ti.UI.createAlertDialog({
 				title: title,
-				message: message
+				message: message,
+				ok: "OK"
 			}).show();
 		},
 		getDate: function (date) {
@@ -102,19 +101,21 @@ function bootstrap() {
 		currentWindow: null,
 		createWindow: require('ui/CreateWindow'),
 		createMenu: require("ui/CreateMenu"),
-		calendar: require("lib/calendar")
+		config: require('config/settings'),
+		calendar: require("lib/calendar"),
+		gCal: require('lib/google_cal'),
+		loading: require("ui/LoadingView")
 	};
 	
-	// initialize config
+	// initialize
 	g.config = g.config();
-	
-	// initialize CreateWindow
-	g.createWindow = g.createWindow();
-	// open main view
-	g.createWindow.Application().open();
-	
-	// initialize calendar
 	g.calendar = g.calendar();
+	g.gCal = g.gCal();
+	g.loading = g.loading();
+	g.createWindow = g.createWindow();
+	
+	// open main view
+	g.createWindow.Scrollable().open();
 	
 	Ti.Gesture.addEventListener('orientationchange', function (e) {
 		Ti.API.info("orientation: " + e.orientation);

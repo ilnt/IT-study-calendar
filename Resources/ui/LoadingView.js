@@ -1,74 +1,55 @@
-// Loading View
-module.exports = function (view) {
-	// iOSでは、渡されたviewにLoadingを貼付ける
-	/* iOSではActivityIndicatorの部分に変更が必要
-	var bgView = Ti.UI.createView({
-		backgroundColor: '#555',
-		opacity: 0.5,
-		zIndex: 1,
-		visible: false,
-		title: 'modal'
-	});
-	
-	var innerH = g.disp.height / 3;
-	var innerView = Ti.UI.createView({
-		width: g.disp.width / 10 * 9,
-		height: innerH,
-		backgroundColor: '#fff',
-		borderRadius: 10
-	});
-	bgView.add(innerView);
-	
-	var labelH = g.disp.height / 14;
-	var label = Ti.UI.createLabel({
-		height: labelH,
-		top: innerH / 2 - labelH,
-		left: g.disp.width / 10,
-		value: 0,
-		color: '#888',
-		font: {fontSize:14},
-		text: 'Loading'
-	});
-	innerView.add(label);
-	
-	var pb = Ti.UI.createImageView({
-		bottom: innerH / 2 - labelH,
-		image: '/images/progressbar.gif'
-	});
-	innerView.add(pb);
-	
-	bgView.addEventListener('openBar', function () {
-		bgView.visible = true;
-	});
-	bgView.addEventListener('closeBar', function () {
-		bgView.visible = false;
-	});
-	
-	return bgView;
-	*/
-	
-	var actin = Ti.UI.createActivityIndicator({
-		message: 'Loading...'
-	});
-	
-	var count = 0;
-	setTimeout(function () {
-		count++;
-		if (count < 4) {
-			actin.message += '.';
-		} else {
-			actin.message = 'Loading';
-			count = 0;
-		}
-		setTimeout(arguments.callee, 300);
-	}, 300);
-	
-	actin.addEventListener('openBar', function () {
-		actin.show();
-	});
-	actin.addEventListener('closeBar', function () {
-		actin.hide();
-	});
-	
-	return actin;
+/**
+ * ui/LoadingView.js
+ * Loading View
+ */
+
+function LoadingView(g) {
+	var timer = 0;
+	this.table = function (table) {
+		// Set loading bar
+		var loading = Ti.UI.createTableViewRow({
+			height: g.dip(40),
+			backgroundColor: "#fff",
+			color: "#000",
+			title: "Now loading",
+			font: {fontSize: g.dip(24)}
+		});
+		clearInterval(timer);
+		var times = 0;
+		timer = setInterval(function () {
+			loading.title = "Now loading" + ["", ".", "..", "..."][times++ % 4];
+		}, 300);
+		
+		table.data = [loading];
+		
+		return loading;
+	};
+	this.window = function () {
+		var style = Ti.Platform.Android ? Titanium.UI.ActivityIndicatorStyle.BIG : Titanium.UI.iPhone.ActivityIndicatorStyle.BIG;
+		var actin = Ti.UI.createActivityIndicator({
+			color: "#fff",
+			style: style
+		});
+		
+		var view = Ti.UI.createView({
+			backgroundColor: "#000",
+			opacity: 0.8,
+			zIndex: 100
+		});
+		actin.addEventListener("show", function () {
+			actin.show();
+			g.currentWindow.add(view);
+		});
+		actin.addEventListener("hide", function () {
+			actin.hide();
+			g.currentWindow.remove(view);
+		});
+		view.add(actin);
+		
+		return actin;
+	};
+}
+
+module.exports =  function () {
+	return new LoadingView(this);
 };

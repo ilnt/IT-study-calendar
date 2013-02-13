@@ -1,4 +1,7 @@
-// Search View
+/**
+ * ui/SearchView.js
+ * Search View
+ */
 
 module.exports = function () {
 	var g = this;

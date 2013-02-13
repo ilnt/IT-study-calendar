@@ -1,5 +1,6 @@
 /**
- * Calendar
+ * lib/calendar.js
+ * Calendar Event
  */
 
 function Calendar(g) {

@@ -1,7 +1,13 @@
-// Scrollable View
+/**
+ * ui/ScrollableView.js
+ * Scrollable View
+ */
 
 module.exports = function () {
 	var g = this;
+	
+	// wrapper
+	var wrapper = Ti.UI.createView();
 	
 	var	month = {b:0, f:0},
 		// View管理用Object
@@ -53,6 +59,27 @@ module.exports = function () {
 	scroll.addAfter = function (view) {
 		this.addView(view);
 	};
+	wrapper.add(scroll);
+	
+	// set menu
+	var menu = {
+		"検索": {
+			click: function () {
+				g.createWindow.Search().open();
+			}
+		},
+		"更新": {
+			click: function () {
+				ScrollableView.fireEvent('reload', {cache: false});
+			}
+		},
+		"設定": {
+			click: function () {
+				g.createWindow.Settings().open();
+			}
+		}
+	};
+	g.createMenu(wrapper, menu, false);
 	
 	// デフォルトのページを中央に設定
 	var currentPageIndex = parseInt(scroll.views.length / 2);
@@ -109,5 +136,5 @@ module.exports = function () {
 	});
 	scroll.fireEvent('scroll', {currentPage: 1});
 	
-	return scroll;
+	return wrapper;
 };

@@ -3,9 +3,9 @@
  * Create Window
  */
 
-function create(g) {
+function Create(g) {
 	var opendWindows = [];
-
+	
 	function createWindow(options) {
 		// Ti.UI.createWindow wrapper
 		var win = Ti.UI.createWindow(options);
@@ -24,7 +24,7 @@ function create(g) {
 		// require wrapper
 		return require(path).call(g);
 	}
-
+	
 	this.remove = function (exit) {
 		// 引数に true を指定すると全ての Window を閉じます
 		opendWindows.slice(Ti.Platform.Android && exit ? 0 : 1)
@@ -32,8 +32,8 @@ function create(g) {
 				win.close();
 			});
 	};
-
-	this.Application = function () {
+	
+	this.Scrollable = function () {
 		var win = createWindow({
 			backgroundColor: '#fff',
 			navBarHidden: true,
@@ -41,30 +41,16 @@ function create(g) {
 			orientationModes: g.orientationModes
 		});
 		
-		var view = loadView("ui/ApplicationView");
+		var view = loadView("ui/ScrollableView");
 		win.add(view);
 		
 		return win;
 	};
-
 	// Event List Window
 	this.EventList = function (title) {
-		/*
-		var win = createWindow({
-			backgroundColor: '#fff',
-			navBarHidden: true,
-			orientationModes: g.orientationModes
-		});
-		*/
 		var view = require('ui/EventListView').call(g, title);
-		/*
-		win.add(view);
-		win.addEventListener('open', function () {
-			view.fireEvent('openView', {items: items});
-		});
-		*/
+		
 		return view;
-		// return win;
 	};
 	// Event Detail Window
 	this.EventDetail = function (item) {
@@ -122,5 +108,5 @@ function create(g) {
 }
 
 module.exports = function () {
-	return new create(this);
+	return new Create(this);
 };

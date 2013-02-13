@@ -1,4 +1,5 @@
-/*
+/**
+ * lib/google_cal.js
  * Google Calendar API
  */
 
@@ -152,7 +153,8 @@ function Cal(g) {
 			}
 		}
 		// Open loading view
-		g.LoadingView.fireEvent('openBar');
+		var loading = g.loading.window();
+		loading.fireEvent('show');
 		// HTTP Client
 		var client = Ti.Network.createHTTPClient({
 			onload: function (e) {
@@ -161,12 +163,12 @@ function Cal(g) {
 				// Cache
 				dataCache[query] = JSON.stringify(data);
 				// Close loading view
-				g.LoadingView.fireEvent('closeBar');
+				loading.fireEvent('hide');
 				callback(filter(data));
 			},
 			onerror: function (e) {
 				// Close loading view
-				g.LoadingView.fireEvent('closeBar');
+				loading.fireEvent('hide');
 				g.alert("エラー", "ネットワークエラー");
 			},
 			timeout: 5000
@@ -201,6 +203,6 @@ function Cal(g) {
 	};
 }
 
-module.exports = function (view) {
-	return new Cal(view);
+module.exports = function () {
+	return new Cal(this);
 };
