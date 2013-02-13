@@ -3,7 +3,8 @@
  * this.settingsObjectの中にid(呼び出し名)をkeyとするObjectとして設定項目を追加する
  * 各設定項目のObjectにはname(設定項目名), title(副項目名), type(設定), init(初期値), callback(option:初期化関数), data(type=checkbox以外のとき)
  */
-module.exports = new function () {
+
+function Settings(g) {
 	var that = this;
 	this.settings =  {
 		'region': {
@@ -11,7 +12,7 @@ module.exports = new function () {
 			type: 'select',
 			title: '地域未指定',
 			init: [],
-			callback: function (g) {
+			callback: function () {
 				// UIに適用
 				setTimeout(function () {
 					g.alert("地域設定", "カレンダーの描画が終わるまでお待ちください。");
@@ -72,12 +73,35 @@ module.exports = new function () {
 			}
 		},
 		'version': {
-			name: '情報',
+			name: 'バージョン情報',
 			type: 'button',
 			title: Ti.App.getName() + '  v' + Ti.App.getVersion(),
 			init: null,
 			callback: function () {
 				Ti.Platform.openURL('https://github.com/ilnt/IT-study-calendar');
+			}
+		},
+		'license': {
+			name: 'ライセンス情報',
+			type: 'button',
+			title: 'com.gs.calendar - module',
+			init: null,
+			callback: function () {
+				g.alert("com.gs.calendar", [
+					'Copyright 2011 by Goran Skledar',
+					'',
+					'Licensed under the Apache License, Version 2.0 (the "License");',
+					'you may not use this file except in compliance with the License.',
+					'You may obtain a copy of the License at',
+					'',
+					'http://www.apache.org/licenses/LICENSE-2.0',
+					'',
+					'Unless required by applicable law or agreed to in writing, software',
+					'distributed under the License is distributed on an "AS IS" BASIS,',
+					'WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.',
+					'See the License for the specific language governing permissions and',
+					'limitations under the License.'
+				].join("\n"));
 			}
 		}
 	};
@@ -115,5 +139,9 @@ module.exports = new function () {
 				Ti.App.Properties.setBool(id, data);
 				break;
 		}
-	}
+	};
+}
+
+module.exports = function () {
+	return new Settings(this);
 };

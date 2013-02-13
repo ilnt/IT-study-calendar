@@ -1,4 +1,8 @@
-// Settings Window
+/**
+ * ui/SettingsView.js
+ * Settings Window
+ */
+
 module.exports = function () {
 	var g = this;
 	
@@ -11,7 +15,7 @@ module.exports = function () {
 	
 	var header = Ti.UI.createView({
 		height: g.dip(50),
-		backgroundColor: '#177bbd',
+		backgroundColor: '#177bbd'
 	});
 	var headerLabel = Ti.UI.createLabel({
 		height: g.dip(50),
@@ -27,7 +31,7 @@ module.exports = function () {
 	// set menu
 	g.createMenu(view, {}, true);
 	
-	var	config = require('config/settings'),
+	var	config = g.config,
 		settings = config.settings,
 		sections = [],
 		tableView = Ti.UI.createTableView({
@@ -52,7 +56,7 @@ module.exports = function () {
 				row.addEventListener('click', function () {
 					var callback = item.callback;
 					if (callback)
-						callback(g);
+						callback();
 				});
 				break;
 			
@@ -69,7 +73,7 @@ module.exports = function () {
 					var callback = item.callback;
 					if (callback)
 						// callbackがfalseを返したときは実行取り消し
-						callback(g, ! setval, function (res) {
+						callback(! setval, function (res) {
 							if (res !== false) cb();
 						});
 					else cb();
@@ -91,7 +95,7 @@ module.exports = function () {
 					
 					var header = Ti.UI.createView({
 						height: g.dip(50),
-						backgroundColor: '#177bbd',
+						backgroundColor: '#177bbd'
 					});
 					var headerLabel = Ti.UI.createLabel({
 						height: g.dip(50),
@@ -145,7 +149,7 @@ module.exports = function () {
 							// settingsに指定されたcallbackの実行(主にUI初期化)
 							var callback = item.callback;
 							if (callback)
-								callback(g);
+								callback();
 						}
 					});
 					win.open();

@@ -9,7 +9,6 @@ function Cal(g) {
 			LAST_QUERY: null,
 			CURRENT_QUERY: null
 		},
-		config = require('/config/settings'),
 		htmlEntities = {
 			'&amp;'		: '&',
 			'&gt;'		: '>',
@@ -117,8 +116,8 @@ function Cal(g) {
 	}
 	// Region filter
 	function filter(data) {
-		var settings = config.settings;
-		var region = config.load('region');
+		var settings = g.config.settings;
+		var region = g.config.load('region');
 		if (region.length > 0) {
 			data.entry = data.entry.filter(function (item) {
 				// フィルタ対象の地域を回す

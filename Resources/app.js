@@ -10,10 +10,9 @@ if (Ti.version < 1.8) {
 } else bootstrap();
 
 function bootstrap() {
-	var config = require('config/settings');
 	// Global object
 	var g = {
-		loadConfig: config.load,
+		config: require('config/settings'),
 		gCal: {},
 		disp: {
 			width: Ti.Platform.displayCaps.platformWidth,
@@ -105,6 +104,9 @@ function bootstrap() {
 		createMenu: require("ui/CreateMenu"),
 		calendar: require("lib/calendar")
 	};
+	
+	// initialize config
+	g.config = g.config();
 	
 	// initialize CreateWindow
 	g.createWindow = g.createWindow();
