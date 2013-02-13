@@ -1,5 +1,6 @@
 /**
  * ui/ApplicationView.js
+ * Application View
  */
 
 function ApplicationView() {

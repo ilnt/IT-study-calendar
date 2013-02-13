@@ -7,14 +7,14 @@ module.exports = new function () {
 	var that = this;
 	this.settings =  {
 		'region': {
-			name: 'Region',
+			name: '地域設定',
 			type: 'select',
 			title: '地域未指定',
 			init: [],
 			callback: function (g) {
 				// UIに適用
 				setTimeout(function () {
-					alert('カレンダーの描画が終わるまでお待ちください。');
+					g.alert("地域設定", "カレンダーの描画が終わるまでお待ちください。");
 					g.EventListView.fireEvent('reload', {cache: 'refresh'});
 				}, 10);
 			},
@@ -72,7 +72,7 @@ module.exports = new function () {
 			}
 		},
 		'version': {
-			name: 'Info',
+			name: '情報',
 			type: 'button',
 			title: Ti.App.getName() + '  v' + Ti.App.getVersion(),
 			init: null,

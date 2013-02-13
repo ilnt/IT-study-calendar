@@ -1,7 +1,8 @@
 /*
  * Google Calendar API
  */
-function cal(g) {
+
+function Cal(g) {
 	var	baseURL = 'https://www.google.com/calendar/feeds/fvijvohm91uifvd9hratehf65k%40group.calendar.google.com/public/embed?alt=json',
 		dataCache = {},
 		predefined = {
@@ -37,7 +38,7 @@ function cal(g) {
 	function format(obj) {
 		obj = obj.feed;
 		if (obj.generator.version !== '1.0') {
-			alert("Googleカレンダーの仕様が変更された可能性があります。");
+			g.alert("エラー", "新しい Google カレンダーに対応していない可能性があります。");
 		}
 		var calobj = {
 			updated: obj.updated.$t,
@@ -63,27 +64,32 @@ function cal(g) {
 		obj.entry.forEach(function (item, index) {
 			eventobj = {
 				id: item.id.$t,
-				title: item.title.$t,
-				content: item.content.$t,
 				link: item.link[0].href,
-				where: item.gd$where[0].valueString,
+				title: item.title.$t.trim(),
+				content: item.content.$t.trim(),
+				where: item.gd$where[0].valueString.trim(),
 				when: {
 					start: item.gd$when[0].startTime,
-					end: item.gd$when[0].endTime
+					end: item.gd$when[0].endTime,
+					time: 0,
+					allday: false
 				}
 			};
 			
-			// it is for date calculations
-			eventobj.when.time = eventobj.when.start;
-			if (!~ eventobj.when.time.indexOf("T"))
-				eventobj.when.time += "T00:00:00.000+09:00";
-			eventobj.when.time = new Date(eventobj.when.time).getTime();
+			// check allday & check time format
+			if (!~ eventobj.when.start.indexOf("T")) {
+				eventobj.when.start += "T00:00:00.000+09:00";
+				eventobj.when.end += "T00:00:00.000+09:00";
+				eventobj.when.allday = true;
+			}
+			eventobj.when.time = new Date(eventobj.when.start).getTime();
 			
 			// HTML entity decode
 			Object.keys(htmlEntities).forEach(function (entity) {
 				eventobj.title = eventobj.title.split(entity).join(htmlEntities[entity]);
 				eventobj.content = eventobj.content.split(entity).join(htmlEntities[entity]);
 			});
+			
 			// get Region
 			var title = eventobj.title;
 			try {
@@ -91,13 +97,13 @@ function cal(g) {
 				eventobj.state = {
 					prefecture: state[0] || null,
 					city: state[1] || null
-				}
+				};
 			} catch (e) {
 				Ti.API.info('state split error');
 				eventobj.state = {
 					prefecture: null,
 					city: null
-				}
+				};
 			}
 			calobj.entry[index] = eventobj;
 		});
@@ -162,7 +168,7 @@ function cal(g) {
 			onerror: function (e) {
 				// Close loading view
 				g.LoadingView.fireEvent('closeBar');
-				alert('Network error.');
+				g.alert("エラー", "ネットワークエラー");
 			},
 			timeout: 5000
 		});
@@ -194,7 +200,8 @@ function cal(g) {
 	this.setCurrentQuery = function (query) {
 		predefined.CURRENT_QUERY = query;
 	};
-};
+}
+
 module.exports = function (view) {
-	return new cal(view);
+	return new Cal(view);
 };

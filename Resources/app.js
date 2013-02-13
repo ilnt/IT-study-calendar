@@ -31,6 +31,12 @@ function bootstrap() {
 				duration: Ti.UI.NOTIFICATION_DURATION_SHORT
 			}).show();
 		},
+		alert: function (title, message) {
+			Ti.UI.createAlertDialog({
+				title: title,
+				message: message
+			}).show();
+		},
 		getDate: function (date) {
 			var	tmp = [
 					'1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16',
@@ -96,13 +102,17 @@ function bootstrap() {
 		dip: function (size) {return size + "dip"},
 		currentWindow: null,
 		createWindow: require('ui/CreateWindow'),
-		createMenu: require("ui/CreateMenu")
+		createMenu: require("ui/CreateMenu"),
+		calendar: require("lib/calendar")
 	};
 	
 	// initialize CreateWindow
 	g.createWindow = g.createWindow();
 	// open main view
 	g.createWindow.Application().open();
+	
+	// initialize calendar
+	g.calendar = g.calendar();
 	
 	Ti.Gesture.addEventListener('orientationchange', function (e) {
 		Ti.API.info("orientation: " + e.orientation);

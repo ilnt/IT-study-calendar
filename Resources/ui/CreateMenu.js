@@ -1,6 +1,6 @@
 /**
  * ui/CreateMenu.js
- * create menu view
+ * Create Menu
  */
 
 function CreateMenu(view, menu, back) {

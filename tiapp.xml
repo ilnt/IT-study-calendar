@@ -39,5 +39,8 @@
         <min-ios-ver>4.3</min-ios-ver>
     </ios>
     <android/>
-    <modules/>
+    <modules>
+        <module platform="iphone">com.gs.calendar</module>
+        <module platform="iphone">com.ti.calendar.permission</module>
+    </modules>
 </ti:app>

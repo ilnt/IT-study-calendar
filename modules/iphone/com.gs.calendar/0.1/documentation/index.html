@@ -1,0 +1,40 @@
+<h1>Calendar Titanium Module for iOS (v0.1)</h1>
+<h2>Description</h2>
+<p>This module aims to provide access to EventKit and EventKitUI functionality on iOS. </p>
+<p>Currently it allows you to add an event to the user's default calendar with the iOS built-in event edit dialog, but more features are being added soon (the ability to search for existing events, ability to edit or delete existing events, monthly calendar view, are a few of the planned features).</p>
+<h2>Compatibility</h2>
+<p>The module was tested with Titanium SDK <strong>1.7.2</strong> on iOS SDK <strong>4.3</strong>. </p>
+<p>Even though EventKit framework is only available for iOS 4 and newer, your application should still work with older iOS versions despite using this module - check the included example file for more information. </p>
+<h2>Installing the module</h2>
+<p>You can either install the module locally under a particular project, or inside the Titanium Mobile SDK folder (that way it will be accessible by all Titanium Mobile projects).</p>
+<h3>Local installation for a single project</h3>
+<p>Put the zip file inside your project's root folder (same folder where the <strong>tiapp.xml</strong> file for your app is located).</p>
+<p>Unzip the file - this should put the module files inside the <strong>modules/iphone/com.gs.calendar/0.1</strong> folder.</p>
+<h3>Installation under Titanium Mobile SDK (if used for more projects)</h3>
+<p>Put the zip file inside the <strong>/Library/Application Support/Titanium</strong> folder (the one on the root of your Mac HD, not under your home folder).</p>
+<p>You do not need to unzip the file (it will get unzipped automatically when you build a project), but if you do unzip it, the module files will be inside the <strong>modules/iphone/com.gs.calendar/0.1</strong> folder.</p>
+<h2>Registering the module for your application</h2>
+<p>Register the module with your application by editing <strong>tiapp.xml</strong> and adding the module under the <strong>modules</strong> tag.</p>
+<p>Example:</p>
+<pre><code>&lt;modules&gt;
+    &lt;module version="0.1"&gt;com.gs.calendar&lt;/module&gt;
+&lt;/modules&gt;
+</code></pre>
+<h2>Accessing the module in your code</h2>
+<p>To access this module from JavaScript, you would do the following:</p>
+<pre><code>var calendar = require("com.gs.calendar");
+</code></pre>
+<p>The calendar variable is a reference to the Module object.<br />
+</p>
+<h2>Reference</h2>
+<p>For now, please check the <strong>app.js</strong> inside the <strong>examples</strong> folder of the module for reference.</p>
+<h2>Usage</h2>
+<p>Please see the example <strong>app.js</strong> inside the <strong>examples</strong> folder of the module.</p>
+<h2>Author</h2>
+<p><strong>Goran Skledar</strong></p>
+<p><strong>E-mail:</strong> <a href="mailto:goran.skledar@gmail.com">goran.skledar@gmail.com</a></p>
+<p><strong>Twitter:</strong> <a href="http://twitter.com/@skledarg">@skledarg</a></p>
+<p><a href="http://developer.appcelerator.com/user/111191/goran-skledar">http://developer.appcelerator.com/user/111191/goran-skledar</a></p>
+<h2>License</h2>
+<p>Please see the included LICENSE file for details.</p>
+<p>Appcelerator Titanium is Copyright (c) 2009 by Appcelerator, Inc. and licensed under the Apache Public License (version 2)</p>

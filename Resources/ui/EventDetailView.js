@@ -1,9 +1,12 @@
-// Event View
-
-var calendar = require("lib/calendar");
+/**
+ * ui/EventDetailView.js
+ * Event Detail View
+ */
 
 module.exports = function (o) {
 	var g = this;
+	
+	var menu = {};
 	
 	var outer = Ti.UI.createView();
 	
@@ -14,7 +17,7 @@ module.exports = function (o) {
 	
 	var header = Ti.UI.createView({
 		height: g.dip(50),
-		backgroundColor: '#177bbd',
+		backgroundColor: '#177bbd'
 	});
 	var headerLabel = Ti.UI.createLabel({
 		height: g.dip(50),
@@ -26,9 +29,6 @@ module.exports = function (o) {
 	});
 	header.add(headerLabel);
 	view.add(header);
-	
-	// set menu
-	g.createMenu(outer, {}, true);
 	
 	function createTextLine(keyStr, valStr) {
 		var key = Ti.UI.createLabel({
@@ -78,25 +78,9 @@ module.exports = function (o) {
 	
 	var	d = {
 			start: dateFormat(o.when.start),
-			end: dateFormat(o.when.end),
-			startTimeInMS: new Date(o.when.start).getTime(),
-			endTimeInMS: new Date(o.when.end).getTime()
+			end: dateFormat(o.when.end)
 		},
-		period = [],
-		allday = false;
-	// 終日指定の場合
-	if (d.start[1] === '' && d.end[1] === '') {
-		period[0] = new Date(d.start[0]).getTime();
-		period[1] = new Date(d.end[0]);
-		period[1].setDate(period[1].getDate() - 1);
-		
-		d.end[0] = [period[1].getFullYear(), period[1].getMonth() + 1, period[1].getDate()].join('-');
-		
-		period[1] = period[1].getTime();
-		// １日だけの場合
-		allday = period[0] === period[1];
-	}
-	var timeLabel = String(allday ? d.start[0] : d.start[0] + ' ' + d.start[1] + ' ~ ' + d.end[0] + ' ' + d.end[1]);
+		timeLabel = String(o.when.allday ? d.start[0] : d.start[0] + ' ' + d.start[1] + ' ~ ' + d.end[0] + ' ' + d.end[1]);
 	
 	var title = label(o.title);
 	title.top = 3;
@@ -113,8 +97,8 @@ module.exports = function (o) {
 	var time = createTextLine('時間 :', timeLabel);
 	time.val.font = {fontSize: 15};
 	time.val.color = '#555';
-	var place = createTextLine('場所 :', o.where);
-	var content = createTextLine('内容 :', o.content);
+	var place = createTextLine('場所 :', o.where || " ");
+	var content = createTextLine('内容 :', o.content || " ");
 	content.val.height = 'auto';
 	var link = label('Googleカレンダーへのリンク');
 	link.top = 15;
@@ -151,44 +135,67 @@ module.exports = function (o) {
 		};
 		
 		// 共有
-		var share = Ti.UI.createButton({
-			title: '共有',
-			top: 50,
-			width: g.disp.width
-		});
-		view.add(share);
 		var intent_share = Ti.Android.createIntent({
 			action: Ti.Android.ACTION_SEND,
 			type: 'text/plain'
 		});
-		intent_share.putExtra(Ti.Android.EXTRA_TEXT, o.title + ' #IT勉強会カレンダー');
-		share.addEventListener('click', function () {
-			intent_call(function () {
-				Ti.Android.currentActivity.startActivity(intent_share);
-			});
-		});
+		var tweet = o.title.slice(127) + (o.title > 127 ? "…" : "") + ' #IT勉強会カレンダー';
+		intent_share.putExtra(Ti.Android.EXTRA_TEXT, tweet);
+		menu["共有"] = {
+			click: function () {
+				intent_call(function () {
+					Ti.Android.currentActivity.startActivity(intent_share);
+				});
+			}
+		};
 		
 		// カレンダーへ登録
-		var cal = Ti.UI.createButton({
-			title: 'カレンダーへ登録',
-			top: 5,
-			width: g.disp.width
-		});
-		view.add(cal);
-		cal.addEventListener('click', function () {
-			intent_call(function () {
-				calendar.addEvent({
-					"title": o.title,
-					"location": o.where,
-					"description": o.content,
-					"timezone": "JST",
-					"start": Number(d.startTimeInMS),
-					"end": Number(d.endTimeInMS),
-					"allday": allday
+		menu["カレンダーへ登録"] = {
+			click: function () {
+				/*
+				intent_call(function () {
+					g.calendar.addEvent({
+						title: o.title,
+						// It doesn't work.
+						location: o.where,
+						description: o.content,
+						begin: new Date(o.when.start),
+						end: new Date(o.when.end),
+						allDay: o.when.allday
+					});
 				});
-			});
-		});
+				*/
+				intent_call(function () {
+					g.calendar.intent({
+						title: o.title,
+						location: o.where,
+						description: o.content,
+						begin: new Date(o.when.start),
+						end: new Date(o.when.end),
+						allDay: o.when.allday
+					});
+				});
+			}
+		};
+	} else {
+		menu["カレンダーへ登録"] = {
+			click: function () {
+				g.calendar.addEvent({
+					eventTitle: o.title,
+					eventStartDate: new Date(o.when.start),
+					eventEndDate: new Date(o.when.end),
+					eventLocation: o.where,
+					eventNotes: o.content,
+					eventAllDay: o.when.allday,
+					animated: true,
+					barColor: "#000"
+				});
+			}
+		};
 	}
+	
+	// set menu
+	g.createMenu(outer, menu, true);
 	
 	return outer;
 };

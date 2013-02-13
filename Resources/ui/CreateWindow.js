@@ -1,6 +1,6 @@
 /**
  * ui/CreateWindow.js
- * create window
+ * Create Window
  */
 
 function create(g) {

@@ -1,0 +1,18 @@
+#
+# this is your module manifest and used by Titanium
+# during compilation, packaging, distribution, etc.
+#
+version: 0.1.0
+apiversion: 2
+description: My module
+author: infiniteloop Co., Ltd.
+license: Specify your license
+copyright: infiniteloop Co., Ltd.
+
+
+# these should not be edited
+name: calendar_permission
+moduleid: com.ti.calendar.permission
+guid: c361c2bf-ff9d-425d-a814-42634ebc891b
+platform: iphone
+minsdk: 3.0.0.GA

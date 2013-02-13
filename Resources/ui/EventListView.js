@@ -1,4 +1,7 @@
-// Event list View
+/**
+ * ui/EventListView.js
+ * Event list View
+ */
 
 module.exports = function (title) {
 	var g = this;

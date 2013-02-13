@@ -1,0 +1,13 @@
+version: 0.1
+description: Calendar module for iOS
+author: Goran Skledar
+license: Apache Public License (version 2)
+copyright: Copyright (c) 2011 Goran Skledar
+
+
+# these should not be edited
+name: calendar
+moduleid: com.gs.calendar
+guid: d546cde9-e921-4401-be7c-349ad5b957a0
+platform: iphone
+minsdk: 1.7.2
