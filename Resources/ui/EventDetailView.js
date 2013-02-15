@@ -6,8 +6,6 @@
 module.exports = function (o) {
 	var g = this;
 	
-	var menu = {};
-	
 	var outer = Ti.UI.createView();
 	
 	var view = Ti.UI.createView({
@@ -29,6 +27,21 @@ module.exports = function (o) {
 	});
 	header.add(headerLabel);
 	view.add(header);
+	
+	var menu = {
+		"カレンダーへ登録": {
+			click: function () {
+				g.calendar.addEvent({
+					title: o.title,
+					location: o.where,
+					description: o.content,
+					beginTime: new Date(o.when.start),
+					endTime: new Date(o.when.end),
+					allDay: o.when.allday
+				});
+			}
+		}
+	};
 	
 	function createTextLine(keyStr, valStr) {
 		var key = Ti.UI.createLabel({
@@ -79,8 +92,11 @@ module.exports = function (o) {
 	var	d = {
 			start: dateFormat(o.when.start),
 			end: dateFormat(o.when.end)
-		},
-		timeLabel = String(o.when.allday ? d.start[0] : d.start[0] + ' ' + d.start[1] + ' ~ ' + d.end[0] + ' ' + d.end[1]);
+		};
+	
+	if (o.when.allday)
+		d.start[1] = d.end[1] = "";
+	var timeLabel = String(d.start[0] + ' ' + d.start[1] + ' ~ ' + d.end[0] + ' ' + d.end[1]);
 	
 	var title = label(o.title);
 	title.top = 3;
@@ -145,50 +161,6 @@ module.exports = function (o) {
 			click: function () {
 				intent_call(function () {
 					Ti.Android.currentActivity.startActivity(intent_share);
-				});
-			}
-		};
-		
-		// カレンダーへ登録
-		menu["カレンダーへ登録"] = {
-			click: function () {
-				/*
-				intent_call(function () {
-					g.calendar.addEvent({
-						title: o.title,
-						// It doesn't work.
-						location: o.where,
-						description: o.content,
-						begin: new Date(o.when.start),
-						end: new Date(o.when.end),
-						allDay: o.when.allday
-					});
-				});
-				*/
-				intent_call(function () {
-					g.calendar.intent({
-						title: o.title,
-						location: o.where,
-						description: o.content,
-						begin: new Date(o.when.start),
-						end: new Date(o.when.end),
-						allDay: o.when.allday
-					});
-				});
-			}
-		};
-	} else {
-		menu["カレンダーへ登録"] = {
-			click: function () {
-				g.calendar.addEvent({
-					eventTitle: o.title,
-					eventStartDate: new Date(o.when.start),
-					eventEndDate: new Date(o.when.end),
-					eventLocation: o.where,
-					eventNotes: o.content,
-					eventAllDay: o.when.allday,
-					animated: true,
-					barColor: "#000"
 				});
 			}
 		};

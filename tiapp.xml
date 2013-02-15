@@ -42,5 +42,6 @@
     <modules>
         <module platform="iphone">com.gs.calendar</module>
         <module platform="iphone">com.ti.calendar.permission</module>
+        <module platform="android">com.ti.calendar.intent</module>
     </modules>
 </ti:app>

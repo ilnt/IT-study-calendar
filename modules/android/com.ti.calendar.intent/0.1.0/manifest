@@ -1,0 +1,18 @@
+#
+# this is your module manifest and used by Titanium
+# during compilation, packaging, distribution, etc.
+#
+version: 0.1.0
+apiversion: 2
+description: My module
+author: infiniteloop Co., Ltd.
+license: Specify your license
+copyright: infiniteloop Co., Ltd.
+
+
+# these should not be edited
+name: calendar_intent
+moduleid: com.ti.calendar.intent
+guid: 45fc1530-f6f4-4b2d-9001-cc70b5ae0fc6
+platform: android
+minsdk: 3.0.0.GA

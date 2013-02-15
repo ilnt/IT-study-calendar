@@ -5,49 +5,39 @@
 
 function Calendar(g) {
 	if (Ti.Platform.Android) {
+		var calendar_intent = require('com.ti.calendar.intent');
+		
 		this.addEvent = function (options) {
-			var cals = Ti.Android.Calendar.allCalendars;
-			var dialog = Ti.UI.createOptionDialog({
-				title: "登録するカレンダーを選択してください。",
-				options: cals.map(function (cal) {return cal.name})
-			});
-			dialog.addEventListener("click", function (e) {
-				if (e.index < 0)
-					return false;
-				
-				cals[e.index].createEvent(options);
-				
-				g.alert("カレンダー", "カレンダーに登録されました。");
-			});
-			dialog.show();
-		};
-		this.intent = function (options) {
-			var intent_cal = Ti.Android.createIntent({
-				action: Ti.Android.ACTION_EDIT,
-				type: 'vnd.android.cursor.item/event'
-			});
-			intent_cal.putExtra("title", options.title);
-			intent_cal.putExtra("eventLocation", options.location);
-			intent_cal.putExtra("description", options.description);
-			intent_cal.putExtra("eventTimezone", "JST");
-			// JST -> UTC
-			var timezoneOffset = 32400000;
-			// It doesn't work.
-			intent_cal.putExtra("beginTime", options.begin.getTime() - timezoneOffset);
-			intent_cal.putExtra("endTime", options.end.getTime() - timezoneOffset);
-			intent_cal.putExtra("allDay", options.allDay);
+			// 全日設定時に日付がズレる問題の暫定的対処
+			var adjustment = options.allDay ? 3600 * 10 * 1000 : 0;
+			if ("beginTime" in options)
+				options.beginTime = String(options.beginTime.getTime() + adjustment);
+			if ("endTime" in options)
+				options.endTime = String(options.endTime.getTime() + adjustment);
 			
-			try {
-				Ti.Android.currentActivity.startActivity(intent_cal);
-			} catch (e) {
-				g.alert("Intent", 'この操作を実行できるアプリケーションはありません。');
-			}
+			calendar_intent.create(options);
 		};
 	} else {
 		var calendar_permisson = require('com.ti.calendar.permission'),
 			calendar = require('com.gs.calendar');
 		
 		this.addEvent = function (options) {
+			if ("title" in options)
+				options.eventTitle = options.title;
+			if ("location" in options)
+				options.eventLocation = options.location;
+			if ("description" in options)
+				options.eventNotes = options.description;
+			if ("beginTime" in options)
+				options.eventStartDate = options.beginTime;
+			if ("endTime" in options)
+				options.eventEndDate = options.endTime;
+			if ("allDay" in options)
+				options.eventAllDay = options.allDay;
+			
+			options.animated = true;
+			options.barColor = "#000";
+			
 			var eventDialog = calendar.createEventDialog(options);
 			eventDialog.addEventListener("complete", function (e) {
 				if (e.success) {
