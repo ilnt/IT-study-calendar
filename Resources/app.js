@@ -104,7 +104,8 @@ function bootstrap() {
 		config: require('config/settings'),
 		calendar: require("lib/calendar"),
 		gCal: require('lib/google_cal'),
-		loading: require("ui/LoadingView")
+		loading: require("ui/LoadingView"),
+		scroll: null
 	};
 	
 	// initialize

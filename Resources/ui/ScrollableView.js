@@ -41,7 +41,7 @@ module.exports = function () {
 		return EventListView_;
 	}
 	
-	var scroll = Ti.UI.createScrollableView({
+	var scroll = g.scroll = Ti.UI.createScrollableView({
 		top: 0,
 	//	views: [addBlankView('先月に移動'), addCalendar(0), addBlankView('来月に移動')],
 		views: [addCalendar(-- month.b), addCalendar(0), addCalendar(++ month.f)],

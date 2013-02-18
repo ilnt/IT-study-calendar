@@ -18,7 +18,7 @@ function Settings(g) {
 				// UIに適用
 				setTimeout(function () {
 					g.alert("地域設定", "カレンダーの描画が終わるまでお待ちください。");
-					g.EventListView.fireEvent('reload', {cache: 'refresh'});
+					g.scroll.fireEvent('reload', {cache: 'refresh'});
 				}, 10);
 			},
 			data: {
