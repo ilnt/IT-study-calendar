@@ -23,7 +23,7 @@ module.exports = function (title) {
 		height: g.dip(50),
 		text: title ? title : '一覧',
 		color: '#fff',
-		font: {fontSize: 18, fontWeight: 'bold'}
+		font: {fontSize: g.dip(18), fontWeight: 'bold'}
 	});
 	header.add(headerLabel);
 	
@@ -39,6 +39,7 @@ module.exports = function (title) {
 		
 		if (items.length === 0) {
 			rowData = [Ti.UI.createTableViewRow({
+				height: g.dip(40),
 				title: '該当するイベントがありません。',
 				color: '#000'
 			})];
@@ -58,10 +59,11 @@ module.exports = function (title) {
 				rowData.push(dateSection);
 			}
 			var row = Ti.UI.createTableViewRow({
+				height: g.dip(40),
 				title: item.title,
 				color: '#000',
 				hasChild: true,
-				font: {fontSize: 18}
+				font: {fontSize: g.dip(18)}
 			});
 			dateSection.add(row);
 			

@@ -70,7 +70,7 @@ module.exports = function () {
 		},
 		"更新": {
 			click: function () {
-				ScrollableView.fireEvent('reload', {cache: false});
+				scroll.fireEvent('reload', {cache: false});
 			}
 		},
 		"設定": {

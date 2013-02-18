@@ -23,7 +23,7 @@ module.exports = function (o) {
 		left: g.dip(5),
 		text: 'イベント詳細',
 		color: '#fff',
-		font: {fontSize: 18, fontWeight: 'bold'}
+		font: {fontSize: g.dip(18), fontWeight: 'bold'}
 	});
 	header.add(headerLabel);
 	view.add(header);
@@ -46,19 +46,19 @@ module.exports = function (o) {
 	function createTextLine(keyStr, valStr) {
 		var key = Ti.UI.createLabel({
 			top: 0,
-			left: 5,
-			height: 32,
+			left: g.dip(5),
+			height: g.dip(32),
 			text: keyStr,
 			color: '#222',
-			font: {fontSize: 16}
+			font: {fontSize: g.dip(16)}
 		});
 		view.add(key);
 		var val = Ti.UI.createLabel({
-			top: -27,
-			left: 50,
+			top: g.dip(-27),
+			left: g.dip(50),
 			text: valStr,
 			color: '#555',
-			font: {fontSize: 16}
+			font: {fontSize: g.dip(16)}
 		});
 		view.add(val);
 		
@@ -71,10 +71,10 @@ module.exports = function (o) {
 	function label(str, parent) {
 		var text = Ti.UI.createLabel({
 			left: 0,
-			width: g.disp.width,
+			width: Ti.UI.FILL,
 			text: str,
 			color: '#222',
-			font: {fontSize: 16}
+			font: {fontSize: g.dip(16)}
 		});
 		(parent ? parent : view).add(text);
 		return text;
@@ -99,26 +99,26 @@ module.exports = function (o) {
 	var timeLabel = String(d.start[0] + ' ' + d.start[1] + ' ~ ' + d.end[0] + ' ' + d.end[1]);
 	
 	var title = label(o.title);
-	title.top = 3;
-	title.font = {fontSize: 18};
+	title.top = g.dip(3);
+	title.font = {fontSize: g.dip(18)};
 	title.backgroundColor = '#f9f9f9';
 	
 	var hr = Ti.UI.createView({
-		top: 3,
-		height: 3,
+		top: g.dip(3),
+		height: g.dip(3),
 		backgroundColor: '#177bbd'
 	});
 	view.add(hr);
 	
 	var time = createTextLine('時間 :', timeLabel);
-	time.val.font = {fontSize: 15};
+	time.val.font = {fontSize: g.dip(15)};
 	time.val.color = '#555';
 	var place = createTextLine('場所 :', o.where || " ");
 	var content = createTextLine('内容 :', o.content || " ");
 	content.val.height = 'auto';
 	var link = label('Googleカレンダーへのリンク');
-	link.top = 15;
-	link.left = 5;
+	link.top = g.dip(15);
+	link.left = g.dip(5);
 	link.color = '#04b';
 	link.addEventListener('click', function () {
 		Ti.Platform.openURL(o.link);

@@ -23,7 +23,7 @@ module.exports = function () {
 		left: g.dip(5),
 		text: '設定',
 		color: '#fff',
-		font: {fontSize: 18, fontWeight: 'bold'}
+		font: {fontSize: g.dip(18), fontWeight: 'bold'}
 	});
 	header.add(headerLabel);
 	wrapper.add(header);
@@ -103,7 +103,7 @@ module.exports = function () {
 						left: g.dip(5),
 						text: item.name,
 						color: '#fff',
-						font: {fontSize: 18, fontWeight: 'bold'}
+						font: {fontSize: g.dip(18), fontWeight: 'bold'}
 					});
 					header.add(headerLabel);
 					wrapper.add(header);
@@ -120,7 +120,7 @@ module.exports = function () {
 						var tableViewRow = Ti.UI.createTableViewRow({
 							title: title,
 							color: '#fff',
-							font: {fontSize: 18, fontWeight: 'bold'}
+							font: {fontSize: g.dip(18), fontWeight: 'bold'}
 						});
 						if (~ setval.indexOf(title)) tableViewRow.hasCheck = true;
 						data.push(tableViewRow);
