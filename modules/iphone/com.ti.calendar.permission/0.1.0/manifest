@@ -4,9 +4,9 @@
 #
 version: 0.1.0
 apiversion: 2
-description: My module
+description: It gets calendar permission to support iOS 6.0 privacy settings.
 author: infiniteloop Co., Ltd.
-license: Specify your license
+license: The MIT License
 copyright: infiniteloop Co., Ltd.
 
 

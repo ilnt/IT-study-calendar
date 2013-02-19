@@ -9,7 +9,7 @@ function Calendar(g) {
 		
 		this.addEvent = function (options) {
 			// 全日設定時に日付がズレる問題の暫定的対処
-			var adjustment = options.allDay ? 3600 * 10 * 1000 : 0;
+			var adjustment = options.allDay ? (60 - new Date().getTimezoneOffset()) * 60 * 1000 : 0;
 			if ("beginTime" in options)
 				options.beginTime = String(options.beginTime.getTime() + adjustment);
 			if ("endTime" in options)
@@ -61,7 +61,7 @@ function Calendar(g) {
 				success: function () {
 					eventDialog.open();
 				},
-				fail: function () {
+				failure: function () {
 					g.alert("プライバシー設定", "カレンダーへのアクセスが許可されていません。");
 				}
 			});

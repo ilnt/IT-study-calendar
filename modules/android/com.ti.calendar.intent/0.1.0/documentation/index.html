@@ -1,23 +1,55 @@
-<h1>calendar_intent Module</h1>
+<h1>Calendar Intent Module</h1>
 <h2>Description</h2>
-<p>TODO: Enter your module description here</p>
-<h2>Accessing the calendar_intent Module</h2>
+<p>It creates Intent for Android default calendar.</p>
+<h2>Accessing the Calendar Intent Module</h2>
 <p>To access this module from JavaScript, you would do the following:</p>
-<pre><code>var calendar_intent = require("com.ti.calendar.intent");
+<pre><code>var calendar = require("com.ti.calendar.intent");
 </code></pre>
-<p>The calendar_intent variable is a reference to the Module object. <br />
-</p>
+<p>The calendar variable is a reference to the Module object.</p>
 <h2>Reference</h2>
-<p>TODO: If your module has an API, you should document
-the reference here.</p>
-<h3><strong>_PROJECTNAMEASIDENTIFIER</strong>.function</h3>
-<p>TODO: This is an example of a module function.</p>
-<h3><strong>_PROJECTNAMEASIDENTIFIER</strong>.property</h3>
-<p>TODO: This is an example of a module property.</p>
+<h3>calendar.addEvent(object)</h3>
+<h4>object</h4>
+<h5>(String) title</h5>
+<p>Event title.</p>
+<h4>(String) location</h4>
+<p>Event location.</p>
+<h4>(String) description</h4>
+<p>Event description.</p>
+<h4>(String) beginTime</h4>
+<p>Event begin time. (UTC millisec)</p>
+<h4>(Strign) endTime</h4>
+<p>Event end time. (UTC millisec)</p>
+<h4>(Boolean) allDay</h4>
+<p>All day event.</p>
+<h4>(String) email</h4>
+<p>Email string. (comma separated)</p>
+<h4>(String) rrule</h4>
+<p><a href="http://tools.ietf.org/html/rfc5545#section-3.8.5.3">RFC5545 3.8.5.3. Recurrence Rule</a></p>
+<h4>(Number) accessLevel</h4>
+<p><code>calendar.ACCESS_DEFAULT</code> or <code>calendar.ACCESS_CONFIDENTIAL</code> or <code>calendar.ACCESS_PRIVATE</code> or <code>calendar.ACCESS_PUBLIC</code></p>
+<h4>(Number) availability</h4>
+<p><code>calendar.AVAILABILITY_BUSY</code> or <code>calendar.AVAILABILITY_FREE</code> or <code>calendar.AVAILABILITY_TENTATIVE</code></p>
+<h3>calendar.AVAILABILITY_BUSY</h3>
+<p>Constant value: <code>0</code></p>
+<h3>calendar.AVAILABILITY_FREE</h3>
+<p>Constant value: <code>1</code></p>
+<h3>calendar.AVAILABILITY_TENTATIVE</h3>
+<p>Constant value: <code>2</code></p>
+<h3>calendar.ACCESS_DEFAULT</h3>
+<p>Constant value: <code>0</code></p>
+<h3>calendar.ACCESS_CONFIDENTIAL</h3>
+<p>Constant value: <code>1</code></p>
+<h3>calendar.ACCESS_PRIVATE</h3>
+<p>Constant value: <code>2</code></p>
+<h3>calendar.ACCESS_PUBLIC</h3>
+<p>Constant value: <code>3</code></p>
+<p>Refer to the
+<a href="http://developer.android.com/intl/ja/guide/topics/providers/calendar-provider.html#intents">Calendar Intents</a>
+and
+<a href="http://developer.android.com/intl/ja/reference/android/provider/CalendarContract.EventsColumns.html#ACCESS_CONFIDENTIAL">Constants</a>.</p>
 <h2>Usage</h2>
-<p>TODO: Enter your usage example here</p>
+<p>Refer to the <code>example/app.js</code></p>
 <h2>Author</h2>
-<p>TODO: Enter your author name, email and other contact
-details you want to share here. </p>
+<p>infiniteloop Co., Ltd.</p>
 <h2>License</h2>
-<p>TODO: Enter your license/legal information here.</p>
+<p>The MIT License</p>
