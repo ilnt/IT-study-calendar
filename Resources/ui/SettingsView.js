@@ -60,6 +60,32 @@ module.exports = function () {
 				});
 				break;
 			
+			case 'option':
+				var dataList = Object.keys(item.data);
+				row.title = String(dataList[dataList.map(function (key) {return item.data[key]}).indexOf(setval)]);
+				row.addEventListener('click', function () {
+					dataList = Object.keys(item.data);
+					var dialog = Ti.UI.createOptionDialog({
+						title: item.name + 'を選択',
+						options: dataList
+					});
+					dialog.addEventListener("click", function (e) {
+						var index = e.index || 0,
+							data = dataList[index];
+						
+						if (data && data !== row.title) {
+							row.title = data;
+							config.set('font-size', data);
+							// settingsに指定されたcallbackの実行(主にUI初期化)
+							var callback = item.callback;
+							if (callback)
+								callback();
+						}
+					});
+					dialog.show();
+				});
+				break;
+			
 			case 'check':
 				row.title = item.title;
 				row.hasCheck = setval !== item.init ? setval : item.init;

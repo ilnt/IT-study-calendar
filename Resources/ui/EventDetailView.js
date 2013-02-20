@@ -6,6 +6,8 @@
 module.exports = function (o) {
 	var g = this;
 	
+	var fontSize = g.config.load("font-size");
+	
 	var outer = Ti.UI.createView();
 	
 	var view = Ti.UI.createView({
@@ -50,15 +52,15 @@ module.exports = function (o) {
 			height: g.dip(32),
 			text: keyStr,
 			color: '#222',
-			font: {fontSize: g.dip(16)}
+			font: {fontSize: g.dip(16 + fontSize)}
 		});
 		view.add(key);
 		var val = Ti.UI.createLabel({
 			top: g.dip(-27),
-			left: g.dip(50),
+			left: g.dip(50 + fontSize * 2),
 			text: valStr,
 			color: '#555',
-			font: {fontSize: g.dip(16)}
+			font: {fontSize: g.dip(16 + fontSize)}
 		});
 		view.add(val);
 		
@@ -74,7 +76,7 @@ module.exports = function (o) {
 			width: Ti.UI.FILL,
 			text: str,
 			color: '#222',
-			font: {fontSize: g.dip(16)}
+			font: {fontSize: g.dip(16 + fontSize)}
 		});
 		(parent ? parent : view).add(text);
 		return text;
@@ -100,7 +102,7 @@ module.exports = function (o) {
 	
 	var title = label(o.title);
 	title.top = g.dip(3);
-	title.font = {fontSize: g.dip(18)};
+	title.font = {fontSize: g.dip(18 + fontSize)};
 	title.backgroundColor = '#f9f9f9';
 	
 	var hr = Ti.UI.createView({

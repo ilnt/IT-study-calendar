@@ -31,6 +31,8 @@ module.exports = function (title) {
 	wrapper.add(table);
 	
 	view.addEventListener('openView', function (e) {
+		var fontSize = g.config.load("font-size");
+		
 		var items = e.items,
 			rowData = [],
 			dateSection = false,
@@ -63,7 +65,7 @@ module.exports = function (title) {
 				title: item.title,
 				color: '#000',
 				hasChild: true,
-				font: {fontSize: g.dip(18)}
+				font: {fontSize: g.dip(17 + fontSize)}
 			});
 			dateSection.add(row);
 			

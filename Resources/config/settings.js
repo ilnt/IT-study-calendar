@@ -2,25 +2,35 @@
  * config/settings.js
  * Settings Window data
  * 設定画面の項目を定義します
- * this.settingsObjectの中にid(呼び出し名)をkeyとするObjectとして設定項目を追加する
- * 各設定項目のObjectにはname(設定項目名), title(副項目名), type(設定), init(初期値), callback(option:初期化関数), data(type=checkbox以外のとき)
+ * this.settings Object の中に id(呼び出し名) を key とする Object として設定項目を追加する
+ * 各設定項目の Object には
+ * - name     (設定項目名)
+ * - title    (副項目名)
+ * - type     (設定)
+ * - init     (初期値)
+ * - callback (option:初期化関数)
+ * - data     (type が select, option のとき)
+ * を設定する
  */
 
 function Settings(g) {
-	var that = this;
+	var self = this;
+	
+	function refreshUI() {
+		// UIに適用
+		setTimeout(function () {
+			g.alert("地域設定", "カレンダーの描画が終わるまでお待ちください。");
+			g.scroll.fireEvent('reload', {cache: 'refresh'});
+		}, 10);
+	}
+	
 	this.settings =  {
 		'region': {
 			name: '地域設定',
 			type: 'select',
 			title: '地域未指定',
 			init: [],
-			callback: function () {
-				// UIに適用
-				setTimeout(function () {
-					g.alert("地域設定", "カレンダーの描画が終わるまでお待ちください。");
-					g.scroll.fireEvent('reload', {cache: 'refresh'});
-				}, 10);
-			},
+			callback: refreshUI,
 			data: {
 				// 表示名: 検索名(複数指定可能)
 				'締切': ['締切', '〆切'],
@@ -74,6 +84,18 @@ function Settings(g) {
 				'沖縄県': ['沖縄']
 			}
 		},
+		'font-size': {
+			name: 'フォントサイズ',
+			type: 'option',
+			title: '',
+			init: '中',
+			data: {
+				'大': 3,
+				'中': 0,
+				'小': -3
+			},
+			callback: refreshUI
+		},
 		'version': {
 			name: 'バージョン情報',
 			type: 'button',
@@ -108,7 +130,7 @@ function Settings(g) {
 		}
 	};
 	this.load = function (id) {
-		var	item = that.settings[id],
+		var	item = self.settings[id],
 			set;
 		if (! item) {
 			Ti.API.debug('Can not load config: ' + id);
@@ -124,11 +146,16 @@ function Settings(g) {
 				set = Ti.App.Properties.getBool(id);
 				set = set !== null ? set : item.init;
 				break;
+			case 'option':
+				set = Ti.App.Properties.getString(id);
+				set = set !== null ? set : item.init;
+				set = item.data[set];
+				break;
 		}
 		return set;
 	};
 	this.set = function (id, data) {
-		var	item = that.settings[id];
+		var	item = self.settings[id];
 		if (! item) {
 			Ti.API.info('Can not set config: ' + id);
 			return false;
@@ -139,6 +166,9 @@ function Settings(g) {
 				break;
 			case 'check':
 				Ti.App.Properties.setBool(id, data);
+				break;
+			case 'option':
+				Ti.App.Properties.setString(id, data);
 				break;
 		}
 	};
