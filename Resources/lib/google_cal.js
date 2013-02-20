@@ -9,14 +9,31 @@ function Cal(g) {
 		predefined = {
 			LAST_QUERY: null,
 			CURRENT_QUERY: null
-		},
-		htmlEntities = {
-			'&amp;'		: '&',
-			'&gt;'		: '>',
-			'&lt;'		: '<',
-			'&nbsp;'	: ' ',
-			'&quot;'	: '"'
 		};
+	
+	// character reference -> str
+	var charref = (function () {
+		var htmlEntities = {
+				'&amp;'		: '&',
+				'&gt;'		: '>',
+				'&lt;'		: '<',
+				'&nbsp;'	: ' ',
+				'&quot;'	: '"'
+			},
+			pattern = /&#([0-9]+);/g,
+			refconv = function (str, charCode) {
+				return String.fromCharCode(charCode);
+			};
+		
+		return function (str) {
+			str = str.replace(pattern, refconv);
+			Object.keys(htmlEntities).forEach(function (entity) {
+				str = str.split(entity).join(htmlEntities[entity]);
+			});
+			return str;
+		};
+	})();
+	
 	// set GET query
 	function queryString(query) {
 		// call query
@@ -85,10 +102,8 @@ function Cal(g) {
 			eventobj.when.time = new Date(eventobj.when.start).getTime();
 			
 			// HTML entity decode
-			Object.keys(htmlEntities).forEach(function (entity) {
-				eventobj.title = eventobj.title.split(entity).join(htmlEntities[entity]);
-				eventobj.content = eventobj.content.split(entity).join(htmlEntities[entity]);
-			});
+			eventobj.title = charref(eventobj.title);
+			eventobj.content = charref(eventobj.content);
 			
 			// get Region
 			var title = eventobj.title;

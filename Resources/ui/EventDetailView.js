@@ -123,6 +123,10 @@ module.exports = function (o) {
 	link.addEventListener('click', function () {
 		Ti.Platform.openURL(o.link);
 	});
+	
+	// share message
+	var message = o.title + ' ' + o.link + ' #IT勉強会カレンダー';
+	
 	if (Ti.Platform.Android) {
 		// Auto link
 		content.val.autoLink = Titanium.UI.Android.LINKIFY_WEB_URLS;
@@ -155,13 +159,24 @@ module.exports = function (o) {
 			action: Ti.Android.ACTION_SEND,
 			type: 'text/plain'
 		});
-		var tweet = o.title.slice(127) + (o.title > 127 ? "…" : "") + ' #IT勉強会カレンダー';
-		intent_share.putExtra(Ti.Android.EXTRA_TEXT, tweet);
+		intent_share.putExtra(Ti.Android.EXTRA_TEXT, message);
 		menu["共有"] = {
 			click: function () {
 				intent_call(function () {
 					Ti.Android.currentActivity.startActivity(intent_share);
 				});
+			}
+		};
+	} else {
+		menu["Twitter 共有"] = {
+			click: function () {
+				var canOpen = Ti.Platform.openURL('twitter://post?message=' + encodeURIComponent(message));
+				if (! canOpen) {
+					var dialog = g.alert('Twitter 共有', 'Twitter 公式アプリが必要です。');
+					dialog.addEventListener("click", function () {
+						Ti.Platform.openURL('https://itunes.apple.com/ja/app/twitter/id333903271');
+					});
+				}
 			}
 		};
 	}

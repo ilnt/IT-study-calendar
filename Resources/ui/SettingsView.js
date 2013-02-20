@@ -118,6 +118,7 @@ module.exports = function () {
 					var data = [];
 					Object.keys(item.data).forEach(function (title) {
 						var tableViewRow = Ti.UI.createTableViewRow({
+							height: g.dip(40),
 							title: title,
 							color: '#fff',
 							font: {fontSize: g.dip(18), fontWeight: 'bold'}

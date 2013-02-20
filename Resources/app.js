@@ -29,11 +29,13 @@ function bootstrap() {
 			}).show();
 		},
 		alert: function (title, message) {
-			Ti.UI.createAlertDialog({
+			var dialog = Ti.UI.createAlertDialog({
 				title: title,
 				message: message,
 				ok: "OK"
-			}).show();
+			});
+			dialog.show();
+			return dialog;
 		},
 		getDate: function (date) {
 			var	tmp = [

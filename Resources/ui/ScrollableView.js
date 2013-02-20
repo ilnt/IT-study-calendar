@@ -115,9 +115,8 @@ module.exports = function () {
 			viewsId = Object.keys(views);
 		
 		viewsId.sort(function (a, b) {return a - b});
-		Ti.API.info('currentPage: ' + currentPage);
 		var viewObj = views[viewsId[currentPage]];
-		Ti.API.info("loaded: " + viewObj.loaded);
+		
 		// 読み込み済みか
 		if (! viewObj.loaded) {
 			scrollable = false;
