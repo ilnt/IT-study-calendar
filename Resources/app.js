@@ -117,9 +117,4 @@ function bootstrap() {
 	
 	// open main view
 	g.createWindow.Scrollable().open();
-	
-	Ti.Gesture.addEventListener('orientationchange', function (e) {
-		Ti.API.info("orientation: " + e.orientation);
-		// Ti.UI.setOrientation(e.orientation);
-	});
 }

@@ -7,18 +7,18 @@
         <target device="android">true</target>
         <target device="blackberry">false</target>
     </deployment-targets>
-    <sdk-version>3.0.0.GA</sdk-version>
+    <sdk-version>3.0.2.GA</sdk-version>
     <id>jp.co.infiniteloop.itstudycal</id>
     <name>IT Study Calendar</name>
     <version>0.1.1</version>
     <publisher>infiniteloop</publisher>
-    <url>http://www.infiniteloop.co.jp/</url>
+    <url>http://www.infiniteloop.co.jp/it-study-calendar/</url>
     <description>IT 勉強会カレンダー for Smartphone</description>
     <copyright>infiniteloop</copyright>
     <icon>appicon.png</icon>
     <persistent-wifi>false</persistent-wifi>
-    <prerendered-icon>false</prerendered-icon>
-    <statusbar-style>default</statusbar-style>
+    <prerendered-icon>true</prerendered-icon>
+    <statusbar-style>Opaque black style</statusbar-style>
     <statusbar-hidden>false</statusbar-hidden>
     <fullscreen>false</fullscreen>
     <navbar-hidden>false</navbar-hidden>
