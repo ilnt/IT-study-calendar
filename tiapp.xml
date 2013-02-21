@@ -10,10 +10,10 @@
     <sdk-version>3.0.2.GA</sdk-version>
     <id>jp.co.infiniteloop.itstudycal</id>
     <name>IT Study Calendar</name>
-    <version>0.1.1</version>
+    <version>1.0.0</version>
     <publisher>infiniteloop</publisher>
     <url>http://www.infiniteloop.co.jp/it-study-calendar/</url>
-    <description>IT 勉強会カレンダー for Smartphone</description>
+    <description>IT 勉強会カレンダー for Android &amp; iOS</description>
     <copyright>infiniteloop</copyright>
     <icon>appicon.png</icon>
     <persistent-wifi>false</persistent-wifi>

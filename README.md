@@ -11,18 +11,12 @@ IT 勉強会カレンダー for Android & iOS
 
 ## システム要件
 ### Android Devices
-- Android 2.2以降
+- Android 2.2 以降
 - インターネット環境
 
 ### iOS Devices
-- iOS 4.0 以降
+- iOS 4.3 以降
 - インターネット環境
 
 ## 更新履歴
-### v0.1.1: 2012/06/04
-- Remove CalendarView
-- Add calendar button
-- bug fix
-
-### v0.1.0: 2012/05/22
-- Beta release
+ [CHANGELOG.md](https://github.com/ilnt/IT-study-calendar/blob/master/CHANGELOG.md)

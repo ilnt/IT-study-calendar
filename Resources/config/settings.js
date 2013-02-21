@@ -102,7 +102,7 @@ function Settings(g) {
 			title: Ti.App.getName() + '  v' + Ti.App.getVersion(),
 			init: null,
 			callback: function () {
-				Ti.Platform.openURL('https://github.com/ilnt/IT-study-calendar');
+				Ti.Platform.openURL('http://www.infiniteloop.co.jp/it-study-calendar/');
 			}
 		},
 		'license': {
