@@ -16,6 +16,7 @@ module.exports = function () {
 	
 	function addCalendar(month_d) {
 		var date = new Date(now);
+		date.setDate(1); // 月の計算用のため1日でセット
 		date.setMonth(date.getMonth() + month_d);
 		// load EventList View
 		var date = g.getDate(date);
