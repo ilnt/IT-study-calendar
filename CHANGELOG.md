@@ -1,5 +1,5 @@
-## 更新履歴
-### v1.0.0: 2012/02/21
+## CHANGELOG
+### v1.0.0: 2013/02/21
 - Support iOS devices
 - Fix calendar Intent bug
 - Add menu like ICS
