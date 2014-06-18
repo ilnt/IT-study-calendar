@@ -1,6 +1,6 @@
 /**
  * lib/google_cal.js
- * Google Calendar API
+ * Google Calendar Feed Parser
  */
 
 function Cal(g) {
@@ -73,7 +73,7 @@ function Cal(g) {
 		obj.author.forEach(function (item, index) {
 			calobj.author[index] = {
 				name: item.name.$t,
-				email: item.email.$t
+				email: item.email && item.email.$t || null
 			};
 		});
 		if (! (obj.entry instanceof Array))
