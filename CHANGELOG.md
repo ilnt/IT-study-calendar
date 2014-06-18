@@ -1,4 +1,9 @@
 ## CHANGELOG
+### v1.0.1: 2014/06/18
+- Fix bug unable to load data from Google Calendar
+- Fix "application restart is required" bug for Android
+- Update Titanium SDK 3.1.3.GA
+
 ### v1.0.0: 2013/02/21
 - Support iOS devices
 - Fix calendar Intent bug
