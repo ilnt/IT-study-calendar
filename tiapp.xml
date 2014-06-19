@@ -19,7 +19,7 @@
     <icon>appicon.png</icon>
     <persistent-wifi>false</persistent-wifi>
     <prerendered-icon>true</prerendered-icon>
-    <statusbar-style>Opaque black style</statusbar-style>
+    <statusbar-style>opaque</statusbar-style>
     <statusbar-hidden>false</statusbar-hidden>
     <fullscreen>false</fullscreen>
     <navbar-hidden>false</navbar-hidden>
@@ -39,6 +39,12 @@
     </iphone>
     <ios>
         <min-ios-ver>4.3</min-ios-ver>
+        <plist>
+            <dict>
+                <key>UIStatusBarStyle</key>
+                <string>UIStatusBarStyleLightContent</string>
+            </dict>
+        </plist>
     </ios>
     <android/>
     <modules>

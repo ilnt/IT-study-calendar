@@ -8,6 +8,9 @@ function Create(g) {
 	
 	function createWindow(options) {
 		// Ti.UI.createWindow wrapper
+		if (! Ti.Platform.Android && Ti.Platform.version.split(".")[0] >= 7) {
+			options.top = 20;
+		}
 		var win = Ti.UI.createWindow(options);
 		g.currentWindow = win;
 		win.addEventListener("focus", function () {
