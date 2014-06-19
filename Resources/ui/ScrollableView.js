@@ -15,11 +15,11 @@ module.exports = function () {
 		now = new Date().toString();
 	
 	function addCalendar(month_d) {
-		var date = new Date(now);
-		date.setDate(1); // 月の計算用のため1日でセット
-		date.setMonth(date.getMonth() + month_d);
+		var d = new Date(now);
+		d.setDate(1); // 月の計算用のため1日でセット
+		d.setMonth(d.getMonth() + month_d);
 		// load EventList View
-		var date = g.getDate(date);
+		var date = g.getDate(d);
 		var EventListView_ = g.createWindow.EventList(date.year + '年 ' + (date.month + 1) + '月');
 		var query = {
 			'start-min': date.year + '-' + date.zeroPadding(date.month + 1) + '-' + '01T00:00:00+09:00',
