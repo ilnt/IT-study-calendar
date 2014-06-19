@@ -40,8 +40,20 @@ module.exports = function () {
 	Object.keys(settings).forEach(function (id) {
 		var item = settings[id];
 		var section = Ti.UI.createTableViewSection({
-			headerTitle: item.name
+			headerView: Ti.UI.createView({
+				height: g.dip(20),
+				backgroundColor: "#333"
+			})
 		});
+		var title = Ti.UI.createLabel({
+			height: g.dip(20),
+			top: 0,
+			left: g.dip(5),
+			text: item.name,
+			color: '#eee',
+			font: {fontSize: g.dip(14)}
+		});
+		section.headerView.add(title);
 		sections.push(section);
 		var setval = config.load(id);
 		var row = Ti.UI.createTableViewRow({
