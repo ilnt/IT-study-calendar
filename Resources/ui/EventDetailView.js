@@ -170,6 +170,20 @@ module.exports = function (o) {
 			}
 		};
 	} else {
+		// for iOS
+
+		// URL チェック
+		var urls = o.content.split(/\s/).filter(function (str) {
+			return /^https?:\/\/.+\..+$/.test(str);
+		});
+		if (urls.length > 0) {
+			// リンク追加
+			content.val.color = '#04b';
+			content.val.addEventListener('click', function () {
+				Ti.Platform.openURL(urls[0]);
+			});
+		}
+
 		menu["Twitter 共有"] = {
 			click: function () {
 				var canOpen = Ti.Platform.openURL('twitter://post?message=' + encodeURIComponent(message));
