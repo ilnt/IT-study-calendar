@@ -19,4 +19,4 @@ IT 勉強会カレンダー for Android & iOS
 - インターネット環境
 
 ## 更新履歴
- [CHANGELOG.md](https://github.com/ilnt/IT-study-calendar/blob/master/CHANGELOG.md)
+[CHANGELOG.md](https://github.com/ilnt/IT-study-calendar/blob/master/CHANGELOG.md)
