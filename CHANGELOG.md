@@ -1,4 +1,8 @@
 ## CHANGELOG
+### v1.0.2: 2014/06/20
+- Support landscape window
+- Add URL link for iOS
+
 ### v1.0.1: 2014/06/18
 - Fix calendar switching bug
 - Fix bug unable to load data from Google Calendar
