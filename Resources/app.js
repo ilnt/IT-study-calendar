@@ -10,6 +10,13 @@ if (Ti.version < 1.8) {
 } else bootstrap();
 
 function bootstrap() {
+	if (Ti.Platform.Android) {
+		Ti.Gesture.addEventListener("orientationchange", function (e) {
+			var activity = g.currentWindow.activity;
+			// Android の画面設定に従う
+			activity && activity.setRequestedOrientation(Ti.Android.SCREEN_ORIENTATION_USER);
+		});
+	}
 	// Global object
 	var g = {
 		disp: {
@@ -18,9 +25,9 @@ function bootstrap() {
 		},
 		orientationModes: [
 			Ti.UI.PORTRAIT,
-			Ti.UI.UPSIDE_PORTRAIT/*,
+			Ti.UI.UPSIDE_PORTRAIT,
 			Ti.UI.LANDSCAPE_LEFT,
-			Ti.UI.LANDSCAPE_RIGHT*/
+			Ti.UI.LANDSCAPE_RIGHT
 		],
 		toast: function (message) {
 			Ti.UI.createNotification({
